@@ -133,20 +133,6 @@
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
     </style>
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
-          };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "swa577r19i");
-    </script>
   </head>
 
   <body class="font-sans antialiased text-gray-900">
@@ -171,6 +157,9 @@
           <div class="hidden md:flex items-center space-x-8">
             <!-- Removed Home and Try Beta navigation links -->
           </div>
+
+          <!-- Mobile menu button -->
+          <!-- Removed mobile menu button/toggle completely -->
         </div>
       </div>
     </nav>
@@ -185,7 +174,7 @@
             class="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mb-8 animate-slide-up"
           >
             <i class="fas fa-rocket mr-2"></i>
-            Coming Soon
+            Launching September 2025
           </div>
 
           <!-- Video Element -->
@@ -200,10 +189,7 @@
                 style="max-height: 60vh; object-fit: cover"
                 preload="metadata"
               >
-                <source
-                  src="extend-logo-visibility-on-smartphone.mp4"
-                  type="video/mp4"
-                />
+                <source src="assets/labellens-ad.mp4" type="video/mp4" />
                 <div class="bg-gray-100 rounded-2xl p-8 text-center">
                   <i class="fas fa-video text-4xl text-gray-400 mb-4"></i>
                   <p class="text-gray-600">
@@ -236,7 +222,7 @@
             recommendations.
           </p>
 
-          <!-- Enhanced waitlist form with Netlify integration -->
+          <!-- Enhanced waitlist form with better styling and UX -->
           <!-- Waitlist Form -->
           <div class="max-w-md mx-auto mb-16 animate-slide-up">
             <div class="waitlist-form rounded-2xl p-8 shadow-xl">
@@ -247,33 +233,25 @@
                 Be the first to experience AI-powered food analysis
               </p>
 
-              <!-- Netlify Form Implementation -->
               <form
                 name="waitlist"
                 method="POST"
                 data-netlify="true"
-                netlify-honeypot="bot-field"
                 class="space-y-4"
               >
-                <!-- Netlify Form Fields -->
                 <input type="hidden" name="form-name" value="waitlist" />
-                <p class="hidden">
-                  <label>
-                    Don't fill this out if you're human:
-                    <input name="bot-field" />
-                  </label>
-                </p>
 
                 <div class="relative">
+                  <!-- Shortened placeholder text for mobile and adjusted icon positioning -->
                   <input
                     type="email"
                     name="email"
-                    placeholder="Enter your email address"
+                    placeholder="Your email"
                     required
-                    class="w-full px-6 py-4 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 text-lg"
+                    class="w-full px-6 py-4 pr-12 rounded-lg border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 text-lg"
                   />
                   <i
-                    class="fas fa-envelope absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    class="fas fa-envelope absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                   ></i>
                 </div>
 
@@ -365,6 +343,15 @@
 
           <!-- Social Links -->
           <div class="flex space-x-6 mb-6">
+            <!-- Updated Twitter/X link to @raizen_dev -->
+            <a
+              href="https://twitter.com/raizen_dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-400 hover:text-white transition-colors duration-300"
+            >
+              <i class="fab fa-twitter text-xl"></i>
+            </a>
             <!-- Fixed contact email to use proper mailto link -->
             <a
               href="mailto:labellens.app@gmail.com"
@@ -389,7 +376,7 @@
       </div>
     </footer>
 
-    <!-- Enhanced JavaScript with Netlify form handling -->
+    <!-- Enhanced JavaScript with better animations and form handling -->
     <script>
       // Scroll animations
       function animateOnScroll() {
@@ -419,24 +406,31 @@
 
       window.addEventListener("scroll", animateOnScroll);
 
-      // Form submission handling
-      const form = document.querySelector('form[name="waitlist"]');
-
-      if (form) {
-        form.addEventListener("submit", function (e) {
+      // Enhanced form submission handling
+      document
+        .querySelector('form[name="waitlist"]')
+        .addEventListener("submit", function (e) {
           const button = this.querySelector('button[type="submit"]');
           const originalHTML = button.innerHTML;
 
-          // Show loading state
           button.innerHTML =
-            '<i class="fas fa-spinner fa-spin mr-2"></i> Joining...';
+            '<i class="fas fa-spinner fa-spin mr-2"></i>Joining...';
           button.disabled = true;
           button.classList.add("opacity-75");
 
-          // Allow Netlify to process the form normally
-          // (No need for AJAX since Netlify handles form submissions)
+          // Success feedback (Netlify will handle the actual submission)
+          setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-check mr-2"></i>Success!';
+            button.classList.remove("opacity-75");
+            button.classList.add("bg-green-600");
+
+            setTimeout(() => {
+              button.innerHTML = originalHTML;
+              button.disabled = false;
+              button.classList.remove("bg-green-600");
+            }, 2000);
+          }, 1500);
         });
-      }
 
       // Smooth scrolling for anchor links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
