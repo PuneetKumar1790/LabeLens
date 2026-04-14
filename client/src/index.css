@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #080808;
+  --surface: #0F0F0F;
+  --border: #1E1E1E;
+  --text-1: #EDEDED;
+  --text-2: #6B6B6B;
+  --text-3: #3A3A3A;
+  --accent: #D4F53C;
+  --accent-dim: #8FAF1A;
+  --red: #FF4545;
+  --amber: #F5A524;
+  --green: #4ADE80;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: Syne, sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.hero-title {
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.section-title {
+  font-size: clamp(2.8rem, 6vw, 4.75rem);
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanline 1.5s ease-in-out infinite;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(320px);
+    opacity: 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(90deg, #121212 0%, #1c1c1c 42%, #121212 84%);
+  background-size: 240% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -240% 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(3.4rem, 18vw, 4.7rem);
+  }
+}
