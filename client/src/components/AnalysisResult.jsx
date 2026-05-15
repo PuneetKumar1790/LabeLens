@@ -77,7 +77,7 @@ export const AnalysisResult = ({ result, onReset }) => {
                 label={label}
                 level={item.level}
                 score={Number(item.score)}
-                inverse={key === 'additives'}
+                kind={key === 'protein' || key === 'fiber' ? 'beneficial' : 'harmful'}
               />
             )
           })}

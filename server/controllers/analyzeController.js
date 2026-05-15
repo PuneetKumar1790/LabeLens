@@ -9,11 +9,11 @@ Return ONLY a valid JSON object - no markdown, no explanation, no extra text. Us
   "overall_score": <number, 1.0-10.0, one decimal place>,
   "score_label": "Poor | Okay | Good | Excellent",
   "breakdown": {
-    "sugar":     { "level": "Low | Medium | High", "score": <1-10> },
-    "protein":   { "level": "Low | Medium | High", "score": <1-10> },
-    "fiber":     { "level": "Low | Medium | High", "score": <1-10> },
-    "additives": { "level": "Low | Medium | High", "score": <1-10> },
-    "sodium":    { "level": "Low | Medium | High", "score": <1-10> }
+    "sugar":     { "level": "Low | Medium | High", "score": <health score 1-10> },
+    "protein":   { "level": "Low | Medium | High", "score": <health score 1-10> },
+    "fiber":     { "level": "Low | Medium | High", "score": <health score 1-10> },
+    "additives": { "level": "Low | Medium | High", "score": <health score 1-10> },
+    "sodium":    { "level": "Low | Medium | High", "score": <health score 1-10> }
   },
   "positives": ["string", "string"],
   "negatives": ["string", "string"],
@@ -22,7 +22,10 @@ Return ONLY a valid JSON object - no markdown, no explanation, no extra text. Us
 }
 
 Rules:
-- Score additives inversely: more additives = lower score
+- Breakdown "level" means the detected amount in the product.
+- Breakdown "score" is always a health score where 10 is best and 1 is worst.
+- Score sugar, sodium, and additives inversely: low amount = high score, high amount = low score.
+- Score protein and fiber directly: high amount = high score, low amount = low score.
 - Base scoring on WHO nutritional guidelines and standard RDA values
 - If image is unclear, still return best estimate with lower confidence scores
 - Product name should be the actual brand+product name visible on label`
@@ -33,6 +36,68 @@ const parseJson = (raw) => {
     .replace(/^```(?:json)?\s*/i, '')
     .replace(/\s*```$/, '')
   return JSON.parse(cleaned)
+}
+
+const harmfulKeys = new Set(['sugar', 'additives', 'sodium'])
+const beneficialKeys = new Set(['protein', 'fiber'])
+const levelScores = {
+  harmful: { Low: 8, Medium: 5, High: 2 },
+  beneficial: { Low: 2, Medium: 5, High: 8 },
+}
+
+const clampScore = (score) => Math.min(10, Math.max(1, Number(score) || 5))
+
+const scoreLabel = (score) => {
+  if (score <= 3.9) return 'Poor'
+  if (score <= 6.4) return 'Okay'
+  if (score <= 7.9) return 'Good'
+  return 'Excellent'
+}
+
+const normalizeLevel = (level) => {
+  const value = String(level || 'Medium').trim().toLowerCase()
+  if (value === 'low') return 'Low'
+  if (value === 'high') return 'High'
+  return 'Medium'
+}
+
+const normalizeBreakdownItem = (key, item = {}) => {
+  const level = normalizeLevel(item.level)
+  const kind = beneficialKeys.has(key) ? 'beneficial' : 'harmful'
+  const fallbackScore = levelScores[kind][level]
+  let score = clampScore(item.score ?? fallbackScore)
+
+  if (harmfulKeys.has(key)) {
+    if (level === 'Low') score = Math.max(score, 7)
+    if (level === 'High') score = Math.min(score, 4)
+  }
+
+  if (beneficialKeys.has(key)) {
+    if (level === 'Low') score = Math.min(score, 4)
+    if (level === 'High') score = Math.max(score, 7)
+  }
+
+  return {
+    level,
+    score: Number(score.toFixed(1)),
+  }
+}
+
+export const normalizeResult = (result) => {
+  const keys = ['sugar', 'protein', 'fiber', 'additives', 'sodium']
+  const breakdown = {}
+  const overallScore = Number(clampScore(result.overall_score).toFixed(1))
+
+  for (const key of keys) {
+    breakdown[key] = normalizeBreakdownItem(key, result.breakdown?.[key])
+  }
+
+  return {
+    ...result,
+    overall_score: overallScore,
+    score_label: scoreLabel(overallScore),
+    breakdown,
+  }
 }
 
 export const analyzeLabel = async (req, res) => {
@@ -69,7 +134,7 @@ export const analyzeLabel = async (req, res) => {
       ],
     })
 
-    const result = parseJson(completion.choices[0].message.content)
+    const result = normalizeResult(parseJson(completion.choices[0].message.content))
     res.json({ success: true, data: result })
   } catch (err) {
     console.error('Analysis error:', err.message)
