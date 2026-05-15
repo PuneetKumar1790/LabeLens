@@ -22,6 +22,12 @@ cd .. && npm run dev
 Frontend: http://localhost:5173  
 Backend: http://localhost:3001
 
+## Production Deployment
+
+- Netlify frontend env var: `VITE_API_URL=https://labellens-api.onrender.com`
+- Render backend env var: `CLIENT_ORIGIN=https://labellens.app,https://www.labellens.app`
+- Keep `GROQ_API_KEY` configured in Render.
+
 ## Stack
 
 React 18, Vite, Tailwind CSS, Framer Motion, React Router, Express, multer, and Groq SDK.

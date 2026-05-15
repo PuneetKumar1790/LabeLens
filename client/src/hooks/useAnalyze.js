@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import axios from 'axios'
 
-const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const fallbackApiBase =
+  import.meta.env.MODE === 'production' ? 'https://labellens-api.onrender.com' : 'http://localhost:3001'
+
+const apiBase = (import.meta.env.VITE_API_URL || fallbackApiBase).replace(/\/$/, '')
 
 export const useAnalyze = () => {
   const [status, setStatus] = useState('idle')
@@ -45,7 +48,7 @@ const getAnalyzeErrorMessage = (err) => {
   }
 
   if (!err.response) {
-    return 'Analyzer server is offline. Start it with npm run dev, then retry.'
+    return 'Analyzer service is unreachable right now. Please retry in a moment.'
   }
 
   if (err.response?.data?.code === 'ANALYZER_NOT_CONFIGURED') {
