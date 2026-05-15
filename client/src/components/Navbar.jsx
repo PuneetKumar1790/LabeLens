@@ -13,14 +13,14 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 max-w-[100vw] overflow-x-hidden border-b border-border bg-bg/80 backdrop-blur-md">
-      <nav className="relative mx-auto flex h-14 w-[100vw] max-w-7xl items-center justify-between gap-3 px-4 sm:px-8">
+    <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
+      <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="LabelLens home">
           <Logo className="h-10 w-10 shrink-0" />
           <span className="font-syne text-[15px] font-semibold tracking-normal text-text-1">LabelLens</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden flex-1 items-center justify-center gap-8 md:flex">
           {links.map((link) => (
             <a
               key={link.href}
@@ -32,7 +32,7 @@ export const Navbar = () => {
           ))}
         </div>
 
-        <div className="absolute right-4 top-1/2 flex shrink-0 -translate-y-1/2 items-center gap-2 sm:right-8 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link
             to="/scan"
             className="hidden rounded-md bg-accent px-4 py-2 font-syne text-[13px] font-semibold text-bg sm:inline-flex"
@@ -41,7 +41,7 @@ export const Navbar = () => {
           </Link>
           <button
             type="button"
-            className="fixed right-4 top-2.5 grid h-9 w-9 place-items-center border border-border bg-bg text-text-1 md:hidden"
+            className="grid h-9 w-9 place-items-center border border-border bg-bg text-text-1 md:hidden"
             onClick={() => setOpen((value) => !value)}
             aria-label="Open navigation"
             aria-expanded={open}

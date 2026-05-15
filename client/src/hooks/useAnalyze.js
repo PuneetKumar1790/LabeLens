@@ -52,7 +52,7 @@ const getAnalyzeErrorMessage = (err) => {
   }
 
   if (err.response?.data?.code === 'ANALYZER_NOT_CONFIGURED') {
-    return 'Analyzer is not configured yet. Add your Groq API key, then retry.'
+    return 'Analyzer is not configured yet. Add your API key, then retry.'
   }
 
   return "Couldn't read this label. Try a clearer photo."

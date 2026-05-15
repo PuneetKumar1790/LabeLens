@@ -25,7 +25,7 @@ const features = [
   {
     icon: BoltIcon,
     title: 'Under 5 Seconds',
-    description: "Powered by Groq's LPU chips. Fastest AI inference available.",
+    description: 'Fast label analysis with near-instant responses.',
   },
   {
     icon: ZeroIcon,

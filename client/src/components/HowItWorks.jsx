@@ -12,7 +12,7 @@ const steps = [
     number: '02',
     title: 'AI reads everything',
     description:
-      'Llama 4 Scout analyzes every ingredient, additive, E-number, and nutritional value on the label.',
+      'Our analyzer reads every ingredient, additive, E-number, and nutritional value on the label.',
   },
   {
     number: '03',

@@ -1,6 +1,6 @@
 import { Logo } from './Logo'
 
-const links = ['Privacy', 'GitHub', 'Twitter/X', 'Product Hunt']
+const contactEmail = 'puneetk49081@gmail.com'
 
 export const Footer = () => (
   <footer id="about" className="border-t border-border px-5 py-12 sm:px-8">
@@ -14,15 +14,13 @@ export const Footer = () => (
         <p className="mt-8 font-mono text-[11px] text-text-3">© 2026 LabelLens. All rights reserved.</p>
       </div>
       <div className="grid content-start gap-3 text-left md:text-right">
-        {links.map((link) => (
-          <a key={link} href="#" className="font-syne text-sm text-text-2 hover:text-text-1">
-            {link}
-          </a>
-        ))}
+        <a href={`mailto:${contactEmail}`} className="font-syne text-sm text-text-2 hover:text-text-1">
+          {contactEmail}
+        </a>
       </div>
     </div>
     <div className="mx-auto mt-12 max-w-7xl border-t border-border pt-5 font-mono text-[11px] text-text-3">
-      Powered by Groq · Llama 4 Scout · Built by Puneet
+      Built by Puneet
     </div>
   </footer>
 )
