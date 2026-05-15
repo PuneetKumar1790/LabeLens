@@ -13,10 +13,10 @@ export const Navbar = () => {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:px-8">
-        <Link to="/" className="flex items-center gap-3" aria-label="LabelLens home">
-          <Logo />
+    <header className="sticky top-0 z-50 max-w-[100vw] overflow-x-hidden border-b border-border bg-bg/80 backdrop-blur-md">
+      <nav className="relative mx-auto flex h-14 w-[100vw] max-w-7xl items-center justify-between gap-3 px-4 sm:px-8">
+        <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="LabelLens home">
+          <Logo className="h-10 w-10 shrink-0" />
           <span className="font-syne text-[15px] font-semibold tracking-normal text-text-1">LabelLens</span>
         </Link>
 
@@ -32,16 +32,16 @@ export const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="absolute right-4 top-1/2 flex shrink-0 -translate-y-1/2 items-center gap-2 sm:right-8 sm:gap-3">
           <Link
             to="/scan"
-            className="rounded-md bg-accent px-4 py-2 font-syne text-[13px] font-semibold text-bg"
+            className="hidden rounded-md bg-accent px-4 py-2 font-syne text-[13px] font-semibold text-bg sm:inline-flex"
           >
             Scan a Label →
           </Link>
           <button
             type="button"
-            className="grid h-9 w-9 place-items-center border border-border text-text-1 md:hidden"
+            className="fixed right-4 top-2.5 grid h-9 w-9 place-items-center border border-border bg-bg text-text-1 md:hidden"
             onClick={() => setOpen((value) => !value)}
             aria-label="Open navigation"
             aria-expanded={open}
