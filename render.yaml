@@ -3,7 +3,7 @@ services:
     name: labellens-api
     runtime: node
     buildCommand: cd server && npm install
-    startCommand: cd server && npm start
+    startCommand: node server/index.js
     envVars:
       - key: NODE_ENV
         value: production
