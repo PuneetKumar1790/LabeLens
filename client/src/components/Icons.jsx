@@ -48,6 +48,25 @@ export const UploadIcon = ({ className = 'h-8 w-8' }) => (
   </svg>
 )
 
+export const CameraIcon = ({ className = 'h-5 w-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M7.5 7.5 9 5h6l1.5 2.5H20v11H4v-11h3.5Z"
+      stroke="currentColor"
+      strokeWidth="1.7"
+    />
+    <path d="M12 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.7" />
+  </svg>
+)
+
+export const ImageIcon = ({ className = 'h-5 w-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M4 5h16v14H4V5Z" stroke="currentColor" strokeWidth="1.7" />
+    <path d="m5 17 4.5-4.5 3 3L15 13l4 4" stroke="currentColor" strokeWidth="1.7" />
+    <path d="M15.8 9h.01" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+  </svg>
+)
+
 export const FoodMark = ({ className = 'h-8 w-8' }) => (
   <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden="true">
     <path d="M8 5h16v22H8V5Z" stroke="currentColor" strokeWidth="1.7" />

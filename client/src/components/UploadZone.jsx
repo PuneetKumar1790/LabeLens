@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { motion } from 'framer-motion'
 import { clsx } from 'clsx'
-import { UploadIcon } from './Icons'
+import { CameraIcon, ImageIcon, UploadIcon } from './Icons'
 
 const formatSize = (bytes) => `${(bytes / 1024 / 1024).toFixed(2)} MB`
 
 export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
   const [preview, setPreview] = useState(null)
+  const cameraInputRef = useRef(null)
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -20,12 +21,19 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
     onDrop,
     multiple: false,
     maxSize: 5 * 1024 * 1024,
+    noClick: true,
     accept: {
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png'],
       'image/webp': ['.webp'],
     },
   })
+
+  const handleCameraFile = (event) => {
+    const nextFile = event.target.files?.[0]
+    if (nextFile) onFile(nextFile)
+    event.target.value = ''
+  }
 
   useEffect(() => {
     if (!file) {
@@ -49,12 +57,13 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
           <img
             src={preview}
             alt="Uploaded food label"
-            className="h-full w-full object-cover blur-sm brightness-[0.6]"
+            className="h-full w-full scale-105 object-cover blur-[3px] brightness-[0.42]"
           />
+          <div className="absolute inset-0 bg-bg/35" />
           <div className="scanline" />
-          <div className="absolute inset-0 grid place-items-center">
-            <div className="w-64 text-center">
-              <div className="mx-auto h-1 w-48 overflow-hidden rounded-full bg-border">
+          <div className="absolute inset-0 grid place-items-center px-5">
+            <div className="w-full max-w-[300px] rounded-lg border border-accent/25 bg-bg/90 p-6 text-center shadow-2xl shadow-bg/60 backdrop-blur-md">
+              <div className="mx-auto h-1.5 w-full max-w-52 overflow-hidden rounded-full bg-border">
                 <motion.div
                   className="h-full bg-accent"
                   animate={{ x: ['-100%', '140%'] }}
@@ -79,20 +88,43 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
           file && 'p-4 sm:p-4',
         )}
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps({ 'aria-label': 'Choose a food label image from gallery' })} />
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          capture="environment"
+          onChange={handleCameraFile}
+          className="sr-only"
+          aria-label="Take a food label photo"
+        />
 
         {preview ? (
           <div>
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation()
-                open()
-              }}
-              className="absolute right-6 top-6 z-10 rounded-sm border border-border bg-bg/85 px-3 py-2 font-syne text-xs font-semibold text-text-1 backdrop-blur"
-            >
-              Change image
-            </button>
+            <div className="absolute right-4 top-4 z-10 flex gap-2 sm:right-6 sm:top-6">
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  cameraInputRef.current?.click()
+                }}
+                className="inline-flex h-10 items-center gap-2 rounded-sm border border-border bg-bg/90 px-3 font-syne text-xs font-semibold text-text-1 backdrop-blur"
+              >
+                <CameraIcon className="h-4 w-4" />
+                Retake
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  open()
+                }}
+                className="inline-flex h-10 items-center gap-2 rounded-sm border border-border bg-bg/90 px-3 font-syne text-xs font-semibold text-text-1 backdrop-blur"
+              >
+                <ImageIcon className="h-4 w-4" />
+                Change
+              </button>
+            </div>
             <img
               src={preview}
               alt="Uploaded food label"
@@ -106,7 +138,30 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
               <p className="mt-7 font-syne text-lg font-semibold text-text-1">
                 {isDragActive ? 'Release to upload' : 'Drop your label here'}
               </p>
-              <p className="mt-2 font-syne text-sm text-text-3">or click to browse</p>
+              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    cameraInputRef.current?.click()
+                  }}
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-accent px-5 font-syne text-sm font-bold text-bg"
+                >
+                  <CameraIcon />
+                  Take photo
+                </button>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    open()
+                  }}
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-sm border border-border px-5 font-syne text-sm font-bold text-text-1"
+                >
+                  <ImageIcon />
+                  Choose from gallery
+                </button>
+              </div>
               <p className="mt-8 font-mono text-xs text-text-3">JPG · PNG · WEBP · up to 5 MB</p>
             </div>
           </div>
@@ -157,7 +212,7 @@ const LoadingText = () => {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
-      className="mt-6 font-mono text-[13px] text-text-2"
+      className="mt-5 font-syne text-sm font-semibold text-text-1"
     >
       {loadingMessages[index]}
     </motion.p>

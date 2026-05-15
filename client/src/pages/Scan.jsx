@@ -27,10 +27,11 @@ export const Scan = () => {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="mt-10"
         >
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent">Live scan</p>
-          <h1 className="mt-3 font-serif text-6xl leading-none text-text-1">Upload a label</h1>
-          <p className="mt-5 font-syne text-base leading-7 text-text-2">
-            Use a clear photo of the nutrition panel and ingredients list.
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-accent">Scan label</p>
+          <h1 className="mt-3 font-serif text-6xl leading-none text-text-1">Scan a label</h1>
+          <p className="mt-5 max-w-xl font-syne text-[15px] leading-7 text-text-2 sm:text-base">
+            Take a clear photo of the nutrition panel and ingredients, or upload one from your
+            gallery.
           </p>
         </motion.div>
 
