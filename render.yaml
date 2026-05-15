@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: labellens-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CLIENT_ORIGIN
+        value: https://labellens.app
+      - key: GROQ_API_KEY
+        sync: false
