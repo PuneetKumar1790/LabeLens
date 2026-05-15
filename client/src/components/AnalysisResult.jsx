@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { BreakdownBar } from './BreakdownBar'
 import { ScoreRing } from './ScoreRing'
 import { scoreColor } from '../utils/scoreColor'
+import { createShareCardFile } from '../utils/shareCard'
 
 const breakdownLabels = {
   sugar: 'Sugar',
@@ -18,13 +19,33 @@ export const AnalysisResult = ({ result, onReset }) => {
   const [shareStatus, setShareStatus] = useState('idle')
 
   const share = async () => {
-    const summary = `${result.product_name}: ${score.toFixed(1)}/10 - ${result.verdict}`
+    const url = window.location.origin
+    const summary = `${result.product_name}: ${score.toFixed(1)}/10 - ${result.verdict}\n${url}`
 
     try {
+      setShareStatus('preparing')
+      const image = await createShareCardFile({
+        ...result,
+        score_label: result.score_label || tone.label,
+      })
+      const files = [image]
+
+      if (navigator.canShare?.({ files }) && navigator.share) {
+        await navigator.share({
+          title: 'LabelLens result',
+          text: summary,
+          url,
+          files,
+        })
+        setShareStatus('shared')
+        return
+      }
+
       if (navigator.share) {
         await navigator.share({
           title: 'LabelLens result',
           text: summary,
+          url,
         })
         setShareStatus('shared')
         return
@@ -115,6 +136,8 @@ export const AnalysisResult = ({ result, onReset }) => {
         >
           {shareStatus === 'copied' || shareStatus === 'shared'
             ? 'Result ready'
+            : shareStatus === 'preparing'
+              ? 'Preparing card...'
             : shareStatus === 'failed'
               ? "Couldn't copy"
               : 'Share result'}
@@ -123,10 +146,12 @@ export const AnalysisResult = ({ result, onReset }) => {
       {shareStatus !== 'idle' ? (
         <p className="mt-3 text-center font-mono text-xs text-text-2">
           {shareStatus === 'copied'
-            ? 'Copied to clipboard.'
+            ? 'Copied result and link to clipboard.'
             : shareStatus === 'shared'
-              ? 'Shared.'
-              : 'Copy blocked by the browser.'}
+              ? 'Shared result card.'
+              : shareStatus === 'preparing'
+                ? 'Creating share card image.'
+                : 'Sharing was blocked by the browser.'}
         </p>
       ) : null}
     </motion.section>
