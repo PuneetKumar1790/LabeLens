@@ -4,6 +4,32 @@ See Beyond the Label.
 
 LabelLens reads packaged food labels with a vision model, scores the product from 1-10, and returns a plain-English nutrition breakdown.
 
+## Problem it solves 
+
+Consumers struggle to make informed decisions about packaged food due to complex nutrition labels, misleading marketing, and information overload. LabelLens solves this by instantly capturing the nutrition label with your phone camera and providing an easy-to-understand health score (1-10) accompanied by plain-English ingredient analysis and nutritional insights.
+
+## Architecture
+
+**Frontend (React + Vite)**
+- `App.jsx` - Main application component
+- `pages/` - Landing page and Scan page (camera upload interface)
+- `components/` - Reusable UI components (AnalysisResult, ScoreRing, FeatureGrid, etc.)
+- `hooks/useAnalyze.js` - Custom hook for API communication
+- `utils/` - Helper functions (scoreColor, shareCard)
+
+**Backend (Express + Node.js)**
+- `routes/analyze.js` - API endpoint for image analysis
+- `controllers/analyzeController.js` - Business logic for processing uploaded images
+- `middleware/upload.js` - File upload handling with multer
+- **Groq LLM** - Vision model for nutrition label analysis and health scoring
+
+**Workflow**
+1. User uploads image of food label → Frontend sends to backend
+2. Backend processes image with Groq vision model
+3. LLM extracts nutrition data and generates health score
+4. Results returned to frontend with visualization
+5. User can share results via card component
+
 ## Setup
 
 ```bash
@@ -30,4 +56,7 @@ Backend: http://localhost:3001
 
 ## Stack
 
-React 18, Vite, Tailwind CSS, Framer Motion, React Router, Express, multer, and Groq SDK.
+**Frontend:** React 18, Vite, Tailwind CSS, Framer Motion, React Router  
+**Backend:** Express, multer, Groq SDK  
+**LLM:** Groq (vision model for nutrition analysis)  
+**Deployment:** Frontend on Netlify, Backend on Render
