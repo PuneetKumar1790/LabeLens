@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeUp, stagger } from './motion'
-import cardImage from '../../LOGO/card.png'
 
 const miniBars = [
   { label: 'Sugar', value: 0, color: '#4ADE80', note: '0g' },
@@ -15,6 +15,21 @@ const callouts = [
   { label: 'Additives detected', value: '3 additives' },
   { label: 'Nutrition profile', value: 'Zero sugar, zero calories' },
 ]
+
+function OptimizedCardImage() {
+  const [loaded, setLoaded] = useState(false)
+  return (
+    <img
+      src="/assets/card.png"
+      alt="AI analysis of a Virtue Elevate drink label showing sucralose, additives, and a 4.8 out of 10 score"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+      onLoad={() => setLoaded(true)}
+      className={`h-auto w-full transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+    />
+  )
+}
 
 export const Hero = () => (
   <section className="relative overflow-hidden bg-dot-grid bg-dot-32">
@@ -83,11 +98,9 @@ export const Hero = () => (
           className="relative mx-auto w-full max-w-[480px] rounded-lg border border-border bg-surface p-4 shadow-2xl shadow-black/40 sm:p-5"
         >
           <div className="overflow-hidden rounded-lg border border-border bg-bg">
-            <img
-              src={cardImage}
-              alt="AI analysis of a Virtue Elevate drink label showing sucralose, additives, and a 4.8 out of 10 score"
-              className="h-auto w-full"
-            />
+            {/* Optimized image: served from public assets so we can preload it in index.html */}
+            {/* Fade-in on load to reduce perceived progressive rendering */}
+            <OptimizedCardImage />
           </div>
 
           <div className="py-7 text-center">
