@@ -19,15 +19,23 @@ const callouts = [
 function OptimizedCardImage() {
   const [loaded, setLoaded] = useState(false)
   return (
-    <img
-      src="/assets/card.png"
-      alt="AI analysis of a Virtue Elevate drink label showing sucralose, additives, and a 4.8 out of 10 score"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-      onLoad={() => setLoaded(true)}
-      className={`h-auto w-full transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-    />
+    <picture>
+      <source type="image/avif" srcSet="/assets/card.lossless.avif" />
+      <source
+        type="image/webp"
+        srcSet="/assets/card-480.lossless.webp 480w, /assets/card-800.lossless.webp 800w, /assets/card.lossless.webp 1200w"
+        sizes="(max-width: 480px) 480px, (max-width: 800px) 800px, 1200px"
+      />
+      <img
+        src="/assets/card.png"
+        alt="AI analysis of a Virtue Elevate drink label showing sucralose, additives, and a 4.8 out of 10 score"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        onLoad={() => setLoaded(true)}
+        className={`h-auto w-full transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </picture>
   )
 }
 
