@@ -1,10 +1,22 @@
 import Groq from 'groq-sdk'
 
-const jsonPrompt = `You are a nutrition expert AI. Carefully examine this food product label image.
+const jsonPrompt = `You are a nutrition expert AI. Carefully examine this image to determine if it is a valid food product label.
 
-Return ONLY a valid JSON object - no markdown, no explanation, no extra text. Use this exact schema:
+First, perform validation:
+1. Does the image contain a food product label?
+2. Are there visible food-related indicators (ingredients list, nutrition facts, serving size, calories, fat, sugar, protein, sodium, additives, etc.)?
 
+Return ONLY a valid JSON object - no markdown, no explanation, no extra text.
+
+If the image IS NOT a valid food label, or if confidence is low, return EXACTLY this JSON format:
 {
+  "is_valid_food_label": false,
+  "reason": "Brief explanation of why it is rejected (e.g., 'Image is a resume, not a food label', 'No nutrition facts or ingredients visible', 'Too blurry to read')."
+}
+
+If the image IS a valid food label, return the full analysis using this EXACT JSON format:
+{
+  "is_valid_food_label": true,
   "product_name": "string - infer from label or packaging design if not explicit",
   "overall_score": <number, 1.0-10.0, one decimal place>,
   "score_label": "Poor | Okay | Good | Excellent",
@@ -21,13 +33,12 @@ Return ONLY a valid JSON object - no markdown, no explanation, no extra text. Us
   "recommendation": "Brief eat / limit / avoid advice in one sentence."
 }
 
-Rules:
+Rules for analysis (only if valid):
 - Breakdown "level" means the detected amount in the product.
 - Breakdown "score" is always a health score where 10 is best and 1 is worst.
 - Score sugar, sodium, and additives inversely: low amount = high score, high amount = low score.
 - Score protein and fiber directly: high amount = high score, low amount = low score.
 - Base scoring on WHO nutritional guidelines and standard RDA values
-- If image is unclear, still return best estimate with lower confidence scores
 - Product name should be the actual brand+product name visible on label`
 
 const parseJson = (raw) => {
@@ -134,7 +145,13 @@ export const analyzeLabel = async (req, res) => {
       ],
     })
 
-    const result = normalizeResult(parseJson(completion.choices[0].message.content))
+    const parsed = parseJson(completion.choices[0].message.content)
+    
+    if (parsed.is_valid_food_label === false) {
+      return res.status(400).json({ error: parsed.reason || 'Invalid food label detected.' })
+    }
+
+    const result = normalizeResult(parsed)
     res.json({ success: true, data: result })
   } catch (err) {
     console.error('Analysis error:', err.message)

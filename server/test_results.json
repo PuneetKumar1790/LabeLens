@@ -1,0 +1,361 @@
+[
+  {
+    "file": "-upQNb2rlDepsa9ftFGdLZw_1Jw9GlLienL6RH_oOXi_ph-NY5fMH9NZNHs59LL5UT4ShG6md_EzSfcyeK-cuVy8izOKO6TMwWHaOhziPOcLRNKUOef0_c7STu5UmiLwcxUs4TM7Z2xBabSKWl_Nn1gPvet5Ai6qHYYJdiSQwDs.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "Nutella",
+        "overall_score": 5.5,
+        "score_label": "Okay",
+        "breakdown": {
+          "sugar": {
+            "level": "High",
+            "score": 2
+          },
+          "protein": {
+            "level": "Low",
+            "score": 3
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 2
+          },
+          "additives": {
+            "level": "Medium",
+            "score": 5
+          },
+          "sodium": {
+            "level": "Low",
+            "score": 8
+          }
+        },
+        "positives": [
+          "Low sodium",
+          "No trans fat"
+        ],
+        "negatives": [
+          "High sugar content",
+          "Low in fiber and protein"
+        ],
+        "verdict": "Nutella is a sweet spread with high sugar and low fiber and protein content.",
+        "recommendation": "Enjoy Nutella in moderation due to its high sugar content."
+      }
+    }
+  },
+  {
+    "file": "2tDy5lhGF1iRehzmVIuZMsCKwXFUjOa78C1CcSSZi2mPnkWDpg0d72T6C8RGQrONfOYZGuHlhfV3GDQiDm2ssQWae00fDZL4khNKzFHuBBfpkhamLBRDbGUpxwnYeO9U_7j6Hk9182_UTLu2uoZ3_I9bpSiSTXjK5tHCYM8OOVHnxaigKIZFSFBZLHsvc_oG.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "",
+        "overall_score": 6.5,
+        "score_label": "Good",
+        "breakdown": {
+          "sugar": {
+            "level": "Low",
+            "score": 8
+          },
+          "protein": {
+            "level": "Low",
+            "score": 2
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 2
+          },
+          "additives": {
+            "level": "Low",
+            "score": 8
+          },
+          "sodium": {
+            "level": "Medium",
+            "score": 5
+          }
+        },
+        "positives": [
+          "Low sugar content",
+          "Low in additives"
+        ],
+        "negatives": [
+          "Low in protein and fiber",
+          "Moderate sodium content"
+        ],
+        "verdict": "This product is a relatively healthy option with low sugar and additive content, but could be improved with higher protein and fiber content.",
+        "recommendation": "Eat in moderation as part of a balanced diet."
+      }
+    }
+  },
+  {
+    "file": "4xIPfpz-NR-sJjYVXAjI37XUP2RNtqO-4k9FriAVcCaSJKbZ8CDQdVmBa_WtVS_59avsSWLoKP20K1_cDO2qemzMM5df9J0ZdLwbk96WwD1DGwzHTMXHDKy0sm1Egseny95Wn-2kK_n-jRCC2aVNe1EhxAY2ZJ6HPcUrp8w4Rxs.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image is an invoice, not a food label."
+    }
+  },
+  {
+    "file": "5FaMRhLSbd1M8-qMH3HWIGeF2cgBOs89ujzPrgUAFUMM618DrR9TpRget7b3KSvJdgFiaGpjASquhHfcFc4zOj6eACHabiKLioDmwqR9fQzzCtDSjE35MtH6-dmtCV6pvnmAnVmqakrJxi1ibnbUwdjD6cxIOZSkjrDfRpWMQ-k.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image is not a food label, but a screenshot of a PDF document about Scrum planning."
+    }
+  },
+  {
+    "file": "EpTEx-TJxKDdaA8VMzndbMpbdBepPHV-ktJfspJVyw9CAQx34y_3y2YpRV0e_56K92woBsdgDSlUXh2kLSm-kPb2M4nd8YOK-vipmmGm4OPJHcjEPJJNF5FS_Mam0Q5ge-GKyqzcVnsfjfZMDr_lcGW6u9kKKJ6p7PgFu1fenx8HntKbVjIrJTt3YdrMI6QC.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "Coca-Cola Original Taste",
+        "overall_score": 2.5,
+        "score_label": "Poor",
+        "breakdown": {
+          "sugar": {
+            "level": "High",
+            "score": 2
+          },
+          "protein": {
+            "level": "Low",
+            "score": 2
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 1
+          },
+          "additives": {
+            "level": "High",
+            "score": 2
+          },
+          "sodium": {
+            "level": "Low",
+            "score": 8
+          }
+        },
+        "positives": [
+          "Low sodium"
+        ],
+        "negatives": [
+          "High sugar, High added sugars, Zero protein, Zero fiber"
+        ],
+        "verdict": "This Coca-Cola Original Taste product is high in sugar and low in essential nutrients.",
+        "recommendation": "Limit consumption of this product due to high sugar content."
+      }
+    }
+  },
+  {
+    "file": "Jyx0I0BcIF4-8XsfKkScFhLoDdLX5OAheS776i-AvQmrVXTNq1FzV8LeDyrCzB27_LRc848d96tWi_nYSqyIMqYCUpi2mnna3uMk3JgEly5Sg4skwMUwCa8CoveyMtiGtRZbiZ52_EY4-KTA8UOANIvbO3D3Y2GST28DMzx4K8U.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "Flat Sev",
+        "overall_score": 4.5,
+        "score_label": "Okay",
+        "breakdown": {
+          "sugar": {
+            "level": "Low",
+            "score": 8
+          },
+          "protein": {
+            "level": "Medium",
+            "score": 5
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 2
+          },
+          "additives": {
+            "level": "Low",
+            "score": 8
+          },
+          "sodium": {
+            "level": "High",
+            "score": 2
+          }
+        },
+        "positives": [
+          "Good source of protein",
+          "No trans fat or cholesterol"
+        ],
+        "negatives": [
+          "High in sodium and saturated fat",
+          "Low in fiber"
+        ],
+        "verdict": "Flat Sev is a snack high in calories, fat, and sodium, but moderate in protein.",
+        "recommendation": "Limit consumption of Flat Sev due to high sodium and fat content."
+      }
+    }
+  },
+  {
+    "file": "QyUErks9sHtYZ5oKVXKc0i_YvrRFDcKl7ngH5i5fLa4WiBREu9dszfW8xf8iUVmW8gu7Os5jep2MnwwHz5dj-R_rGE7ClPKLxWhIsiiE1D1uNNihPhrWzN0baXTwOrLUXQuFpQWcr43dCIVrgCsVE9DoFojffukN0aosrl_V72w.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image appears to be a list of food categories, not a specific product label with nutrition facts or ingredients."
+    }
+  },
+  {
+    "file": "b2Wz82L7TUc4OOEZloeXZ-RcWR3uEsminUW-oGxnvZET6UC4RZaPuxFL9EYocsZNZBhAxhacgD_d4smY5dSxIqoKsAxF2ELzJGheFOMQ9uVQSolFHZqOYXrNLiuHU5y01MML1CVKGqFsxVpR3_L8qMVFjdKeHYsoXYQ1VgCPqA_GnsqpdacRKRlJJuImwRkQ.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "OREO DOUBLE STUF",
+        "overall_score": 4.5,
+        "score_label": "Okay",
+        "breakdown": {
+          "sugar": {
+            "level": "High",
+            "score": 2
+          },
+          "protein": {
+            "level": "Low",
+            "score": 3
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 2
+          },
+          "additives": {
+            "level": "Medium",
+            "score": 5
+          },
+          "sodium": {
+            "level": "Medium",
+            "score": 5
+          }
+        },
+        "positives": [
+          "Good source of calcium"
+        ],
+        "negatives": [
+          "High in sugar and sodium"
+        ],
+        "verdict": "This product is a sweet treat that should be consumed in moderation due to its high sugar and sodium content.",
+        "recommendation": "Limit consumption to occasional treat."
+      }
+    }
+  },
+  {
+    "file": "b6WiGvtQf4w1je_ypTTGKBEZfR4eW6QIZsI7lNKxBzurne7PYu26xn45vm_wbSQBqJVWqPjADcEysPFqvYStkdxcRWYDQTOXNczeAvKLS7CLLrFgNx2fEEQ4X40r6eE2tb5Gb6A93_j5hqX-B12fUeyTLSWQmwHQvzapLlQQ1mo.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "Lays Classic Salted",
+        "overall_score": 4.5,
+        "score_label": "Okay",
+        "breakdown": {
+          "sugar": {
+            "level": "Low",
+            "score": 8
+          },
+          "protein": {
+            "level": "Low",
+            "score": 3
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 2
+          },
+          "additives": {
+            "level": "Medium",
+            "score": 5
+          },
+          "sodium": {
+            "level": "High",
+            "score": 2
+          }
+        },
+        "positives": [
+          "Low sugar content",
+          "Classic flavor"
+        ],
+        "negatives": [
+          "High sodium content",
+          "Low fiber and protein content"
+        ],
+        "verdict": "A tasty snack with low sugar content but high sodium and low fiber and protein.",
+        "recommendation": "Enjoy in moderation due to high sodium content."
+      }
+    }
+  },
+  {
+    "file": "oIvkufLKzyX6eqS-lxzmkEIBKZ3LWRw9y9j0Z8wVz2LhIqV60wg0Tj6kto-7f_vyIMBUFWVAQbYV6uXh2sSu2cJgbNminAlm1hAxvrMgqlWUYuU1f3NezPohRKHxHdUCBMjUhBdCfW9m_CNjO4uw_H1MaolgfppkV7aiN8KjLxc.jpeg",
+    "status": 200,
+    "data": {
+      "success": true,
+      "data": {
+        "is_valid_food_label": true,
+        "product_name": "Kellogg's Corn Flakes Original",
+        "overall_score": 6.5,
+        "score_label": "Good",
+        "breakdown": {
+          "sugar": {
+            "level": "Low",
+            "score": 8
+          },
+          "protein": {
+            "level": "Low",
+            "score": 4
+          },
+          "fiber": {
+            "level": "Low",
+            "score": 3
+          },
+          "additives": {
+            "level": "Low",
+            "score": 8
+          },
+          "sodium": {
+            "level": "Low",
+            "score": 9
+          }
+        },
+        "positives": [
+          "Low sugar and sodium content",
+          "Good source of certain vitamins"
+        ],
+        "negatives": [
+          "Low in protein and fiber"
+        ],
+        "verdict": "Kellogg's Corn Flakes Original is a relatively healthy breakfast option with low sugar and sodium, but could be improved with more protein and fiber.",
+        "recommendation": "Enjoy in moderation as part of a balanced diet."
+      }
+    }
+  },
+  {
+    "file": "qhBFIG2NBPU7LSUc1o44giHIrw31-kO0NonLaoGiTHhl6xyZMHZZ3C6I7Y7C7s8BNN__gg3sNInLBRtz520GRHMw0ZsxFGM6Uhx-APdOKufEXzN0iKMuuzqSJb6qHD3iJkRYxz2RP2n7XcPWp-qd1lE3zUjA0FdFlodQ1E6ozRw.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image is a resume, not a food label"
+    }
+  },
+  {
+    "file": "srNXm_lLrr5suJIy1ynaa5WSb3vzZo12YkyXuJ9TNV5-Lpdsz2PBtfdjJc13R1W_y-8PMlQ-dO-ymAsIcptABlV2vDLBZ6H_1IZ3C2PvFJF71VNyvpAhI4JLRZO4K-OgjFWgi8niqJP5yGKo_F0Lvu_KHrcq6Hda-2EyYtzUkrQXYkv8y9_Qlt5Iwjxj6aUj.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image is too blurry to read specific values for nutrition facts."
+    }
+  },
+  {
+    "file": "vBUPpXqHdV3XO-4fk7X7jjTxqueBvBOat-Q_sXyD7RFflRWGvaS5uXQHKv0_YjV2cs4utbNcHCtbDPtzD_DLubOZSNvWW-bFf1fklbb48UjYIsLLtcMAmFEm8aaIa4uSrfaW4174yzYlgjn6wNsJ0tIw-D95s7bUyQZYH-t6zgM.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image is not a food label, appears to be a coding interface."
+    }
+  },
+  {
+    "file": "ydWNvYGS3HcAx1-cRHI_iOKEK7uix0FQ8rvTlLYRd_q1XQ8kS2w8h5LOB9PAxvO7BiyuPoRvQvzwgRS3XrpUyK709dyHEPEST6la1zlH7UqxEGVUMBHMokXU6qCS7l_NDIwnCDXGtH8C-IlElC11XCPPyw3KZCGq4VtaAarEu-g.jpeg",
+    "status": 400,
+    "data": {
+      "error": "Image does not contain a food product label."
+    }
+  }
+]
