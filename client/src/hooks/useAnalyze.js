@@ -55,5 +55,9 @@ const getAnalyzeErrorMessage = (err) => {
     return 'Analyzer is not configured yet. Add your API key, then retry.'
   }
 
+  if (err.response?.data?.error) {
+    return err.response.data.error
+  }
+
   return "Couldn't read this label. Try a clearer photo."
 }
