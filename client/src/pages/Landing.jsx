@@ -4,7 +4,6 @@ import { HowItWorks } from '../components/HowItWorks'
 import { LiveCta } from '../components/LiveCta'
 import { FeatureGrid } from '../components/FeatureGrid'
 import { SampleCards } from '../components/SampleCards'
-import { PHBanner } from '../components/PHBanner'
 import { Footer } from '../components/Footer'
 
 export const Landing = () => (
@@ -16,7 +15,6 @@ export const Landing = () => (
       <LiveCta />
       <FeatureGrid />
       <SampleCards />
-      <PHBanner />
     </main>
     <Footer />
   </div>
