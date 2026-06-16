@@ -108,7 +108,7 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
                   event.stopPropagation()
                   cameraInputRef.current?.click()
                 }}
-                className="inline-flex h-10 items-center gap-2 rounded-sm border border-border bg-bg/90 px-3 font-syne text-xs font-semibold text-text-1 backdrop-blur"
+                className="inline-flex h-10 items-center gap-2 rounded-sm border border-border bg-bg/90 px-3 font-syne text-xs font-semibold text-text-1 backdrop-blur sm:hidden"
               >
                 <CameraIcon className="h-4 w-4" />
                 Retake
@@ -145,7 +145,7 @@ export const UploadZone = ({ file, onFile, onAnalyze, status }) => {
                     event.stopPropagation()
                     cameraInputRef.current?.click()
                   }}
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-accent px-5 font-syne text-sm font-bold text-bg"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-accent px-5 font-syne text-sm font-bold text-bg sm:hidden"
                 >
                   <CameraIcon />
                   Take photo
