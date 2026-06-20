@@ -146,6 +146,9 @@ export const Navbar = () => {
                   <button onClick={() => { handleLogout(); setOpen(false); }} className="text-left border-b border-border/70 py-3 font-syne text-sm text-red">Sign Out</button>
                 </>
               )}
+              {!user && (
+                <Link to="/login" onClick={() => setOpen(false)} className="border-b border-border/70 py-3 font-syne text-sm font-semibold text-accent">Sign In →</Link>
+              )}
             </div>
           </motion.div>
         ) : null}
