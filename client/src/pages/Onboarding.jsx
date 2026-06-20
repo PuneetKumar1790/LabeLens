@@ -216,6 +216,9 @@ export const Onboarding = () => {
           </div>
         )}
       </div>
+      <p className="font-syne text-[10px] uppercase tracking-widest text-red-400/80 text-center pt-2">
+        Allergy warning: Always verify allergens directly on product packaging.
+      </p>
     </div>,
 
     // Step 3: Avoided Ingredients

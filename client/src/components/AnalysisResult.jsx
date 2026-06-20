@@ -162,15 +162,9 @@ export const AnalysisResult = ({ result, onReset }) => {
         </p>
       ) : null}
 
-      <div className="mt-8 pt-6 border-t border-border/40 text-center space-y-2">
+      <div className="mt-8 pt-6 border-t border-border/40 text-center">
         <p className="font-syne text-[10px] uppercase tracking-widest text-text-3">
           AI-generated analysis. For informational purposes only.
-        </p>
-        <p className="font-syne text-[10px] uppercase tracking-widest text-red-400/80">
-          Allergy warning: Always verify allergens directly on product packaging.
-        </p>
-        <p className="font-syne text-[10px] text-text-3 max-w-sm mx-auto leading-relaxed">
-          Terms of Service: LabelLens is not medical advice and should not replace consultation with qualified healthcare professionals.
         </p>
       </div>
     </motion.section>

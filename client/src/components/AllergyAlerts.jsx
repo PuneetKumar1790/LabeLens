@@ -86,6 +86,9 @@ export const AllergyAlerts = ({ alerts = [] }) => {
           {expanded ? `Show fewer alerts ↑` : `Show ${alerts.length - 3} more alerts ↓`}
         </button>
       )}
+      <p className="pt-1.5 font-syne text-[10px] uppercase tracking-widest text-red-400/80 text-center">
+        Allergy warning: Always verify allergens directly on product packaging.
+      </p>
     </div>
   )
 }

@@ -7,6 +7,10 @@ export const Terms = () => {
       <Navbar />
       <main className="flex-1 mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <h1 className="font-serif text-4xl mb-8">Terms of Service</h1>
+        <div className="mb-8 rounded-xl border border-accent/20 bg-accent/5 px-6 py-4 font-syne text-xs text-text-1 leading-relaxed">
+          <strong className="text-accent uppercase tracking-wider block mb-1">Medical Disclaimer:</strong>
+          LabelLens is not medical advice and should not replace consultation with qualified healthcare professionals.
+        </div>
         <div className="space-y-6 font-syne text-text-2 leading-relaxed">
           <p>Effective Date: June 2026</p>
           <h2 className="text-xl font-bold text-text-1 mt-8">1. Acceptance of Terms</h2>
