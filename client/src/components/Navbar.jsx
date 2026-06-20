@@ -97,7 +97,7 @@ export const Navbar = () => {
           ) : (
             <Link
               to="/login"
-              className="hidden rounded-md bg-accent px-4 py-2 font-syne text-[13px] font-semibold text-bg sm:inline-flex"
+              className="rounded-md bg-accent px-4 py-2 font-syne text-[13px] font-semibold text-bg inline-flex"
             >
               Sign In →
             </Link>
