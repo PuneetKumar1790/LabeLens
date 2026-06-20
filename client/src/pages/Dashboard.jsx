@@ -130,6 +130,21 @@ export const Dashboard = () => {
           </p>
         </motion.div>
 
+        {userProfile && (!userProfile.prefs?.healthGoals?.length && !userProfile.allergy?.commonAllergens?.length) && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-10 rounded-xl border border-accent/40 bg-accent/10 p-5 flex items-start gap-4"
+          >
+            <span className="text-accent mt-0.5"><AlertIcon className="h-5 w-5" /></span>
+            <div>
+              <h3 className="font-syne text-sm font-bold text-accent">Complete your profile for better results</h3>
+              <p className="mt-1 font-syne text-xs text-text-2">We use your dietary preferences, health goals, and allergies to give you personalized health scores and warnings.</p>
+              <Link to="/profile" className="mt-3 inline-block font-syne text-xs font-semibold text-accent hover:underline">Update Profile →</Link>
+            </div>
+          </motion.div>
+        )}
+
         {/* Quick actions */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}

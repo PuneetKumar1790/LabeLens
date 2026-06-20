@@ -5,6 +5,7 @@ import {
   updateAllergyProfile,
   updateAvoidedIngredients,
   updateSettings,
+  deleteAccount,
 } from '../controllers/userController.js'
 import { authenticate } from '../middleware/auth.js'
 
@@ -15,5 +16,6 @@ router.put('/preferences', authenticate, updatePreferences)
 router.put('/allergies', authenticate, updateAllergyProfile)
 router.put('/avoided', authenticate, updateAvoidedIngredients)
 router.put('/settings', authenticate, updateSettings)
+router.delete('/account', authenticate, deleteAccount)
 
 export default router

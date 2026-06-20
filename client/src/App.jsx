@@ -11,7 +11,8 @@ import { History } from './pages/History'
 import { Compare } from './pages/Compare'
 import { Profile } from './pages/Profile'
 import { Settings } from './pages/Settings'
-
+import { Privacy } from './pages/Privacy'
+import { Terms } from './pages/Terms'
 import { ScanDetail } from './pages/ScanDetail'
 
 export default function App() {
@@ -29,6 +30,8 @@ export default function App() {
         <Route path="/history/:id" element={<ProtectedRoute><ScanDetail /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
     </AuthProvider>
   )

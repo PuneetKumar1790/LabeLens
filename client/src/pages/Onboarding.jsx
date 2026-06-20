@@ -12,7 +12,7 @@ const HEALTH_GOALS = [
   'High Protein',
   'Low Sugar',
 ]
-const DIETARY_PREFS = ['Vegetarian', 'Vegan', 'Jain', 'Halal']
+const DIETARY_PREFS = ['Vegetarian', 'Vegan', 'Jain']
 const COMMON_ALLERGENS = [
   'Milk',
   'Eggs',

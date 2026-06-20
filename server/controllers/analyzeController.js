@@ -197,8 +197,8 @@ const buildForYou = (result, userContext, allergyAlerts, avoidedWarnings) => {
 
     const dietaryKeywords = {
       vegetarian: ['meat', 'chicken', 'beef', 'pork', 'lamb', 'fish', 'seafood', 'gelatin'],
-      vegan: ['meat', 'chicken', 'beef', 'pork', 'lamb', 'fish', 'dairy', 'milk', 'egg', 'honey', 'gelatin'],
-      halal: ['pork', 'lard', 'alcohol', 'wine', 'beer'],
+      vegan: ['meat', 'poultry', 'fish', 'dairy', 'egg', 'honey', 'gelatin', 'carmine'],
+      jain: ['meat', 'poultry', 'fish', 'egg', 'onion', 'garlic', 'potato', 'carrot', 'turnip', 'radish'],
       kosher: ['pork', 'shellfish'],
       gluten_free: ['wheat', 'gluten', 'barley', 'rye', 'oat'],
       low_carb: ['high sugar', 'high carb', 'maltose', 'corn syrup'],

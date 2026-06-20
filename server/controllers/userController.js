@@ -2,6 +2,8 @@ import UserPreferences from '../models/UserPreferences.js'
 import AllergyProfile from '../models/AllergyProfile.js'
 import AvoidedIngredients from '../models/AvoidedIngredients.js'
 import User from '../models/User.js'
+import ScanHistory from '../models/ScanHistory.js'
+import ChatHistory from '../models/ChatHistory.js'
 
 export const getProfile = async (req, res) => {
   try {
@@ -67,6 +69,23 @@ export const updateSettings = async (req, res) => {
     if (onboardingCompleted !== undefined) update.onboardingCompleted = onboardingCompleted
     const user = await User.findByIdAndUpdate(req.user._id, update, { new: true }).lean()
     res.json({ success: true, data: user })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+
+export const deleteAccount = async (req, res) => {
+  try {
+    const userId = req.user._id
+    await Promise.all([
+      UserPreferences.deleteOne({ userId }),
+      AllergyProfile.deleteOne({ userId }),
+      AvoidedIngredients.deleteOne({ userId }),
+      ScanHistory.deleteMany({ userId }),
+      ChatHistory.deleteMany({ userId }),
+      User.findByIdAndDelete(userId)
+    ])
+    res.json({ success: true, message: 'Account deleted' })
   } catch (err) {
     res.status(500).json({ error: err.message })
   }

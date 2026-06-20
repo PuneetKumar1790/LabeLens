@@ -131,7 +131,7 @@ export const Settings = () => {
             <SettingsCard>
               <SettingsRow
                 label="Save scan images to cloud"
-                description="When enabled, your label images are stored securely in Azure Blob Storage for scan history."
+                description="When enabled, your label images are stored securely in the cloud for scan history."
               >
                 <Toggle
                   checked={saveImages}

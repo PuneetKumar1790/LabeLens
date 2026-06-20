@@ -8,7 +8,7 @@ const HEALTH_GOALS = [
   'Weight Loss', 'Muscle Gain', 'General Health',
   'Diabetes Friendly', 'Heart Health', 'High Protein', 'Low Sugar',
 ]
-const DIETARY_PREFS = ['Vegetarian', 'Vegan', 'Jain', 'Halal']
+const DIETARY_PREFS = ['Vegetarian', 'Vegan', 'Jain']
 const COMMON_ALLERGENS = [
   'Milk', 'Eggs', 'Fish', 'Shellfish', 'Tree Nuts',
   'Peanuts', 'Wheat', 'Soybeans', 'Sesame',
