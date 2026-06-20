@@ -1,19 +1,24 @@
 {
   "name": "labellens-server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon --watch index.js --watch routes --watch controllers --watch middleware --watch .env --ext js,json,env index.js",
+    "dev": "nodemon --watch index.js --watch routes --watch controllers --watch middleware --watch services --watch models --watch config --watch .env --ext js,json,env index.js",
     "start": "node index.js"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.26.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "express-rate-limit": "^8.5.2",
     "groq-sdk": "^0.3.3",
-    "multer": "^2.1.1"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.7.1",
+    "multer": "^2.1.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

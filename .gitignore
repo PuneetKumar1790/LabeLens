@@ -3,3 +3,4 @@ dist
 client/dist
 .env
 *.log
+\n.antigravityrules

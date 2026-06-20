@@ -4,14 +4,22 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { UploadZone } from '../components/UploadZone'
 import { AnalysisResult } from '../components/AnalysisResult'
 import { useAnalyze } from '../hooks/useAnalyze'
+import { useAuth } from '../contexts/AuthContext'
 
 export const Scan = () => {
   const [file, setFile] = useState(null)
   const { status, result, error, analyze, reset } = useAnalyze()
+  const { getUserContext } = useAuth()
 
   const handleReset = () => {
     setFile(null)
     reset()
+  }
+
+  const handleAnalyze = (f) => {
+    if (!f) return
+    const userContext = getUserContext()
+    analyze(f, userContext)
   }
 
   return (
@@ -50,7 +58,7 @@ export const Scan = () => {
                 <UploadZone
                   file={file}
                   onFile={setFile}
-                  onAnalyze={() => file && analyze(file)}
+                  onAnalyze={() => handleAnalyze(file)}
                   status={status}
                 />
 
@@ -65,7 +73,7 @@ export const Scan = () => {
                     </p>
                     <button
                       type="button"
-                      onClick={() => file && analyze(file)}
+                      onClick={() => handleAnalyze(file)}
                       className="mt-4 rounded-sm bg-accent px-4 py-2 font-syne text-sm font-bold text-bg"
                     >
                       Retry scan →

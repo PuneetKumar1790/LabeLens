@@ -1,36 +1,36 @@
 import { motion } from 'framer-motion'
-import { AlertIcon, BoltIcon, ChartIcon, GaugeIcon, PackageIcon, ZeroIcon } from './Icons'
+import { TargetIcon, AlertCircleIcon, HistoryListIcon, ScaleIcon, BoltIcon, PackageIcon } from './Icons'
 
 const features = [
   {
-    icon: PackageIcon,
-    title: 'Ingredient Scanner',
-    description: 'Identifies every additive, preservative, and E-number by name.',
+    icon: TargetIcon,
+    title: 'Personalized Scoring',
+    description: 'Health scores adapted to your specific goals like Weight Loss, Muscle Gain, or Heart Health.',
   },
   {
-    icon: ChartIcon,
-    title: 'Nutrition Breakdown',
-    description: 'Sugar, sodium, fat, protein, and fiber - all put in plain context.',
-  },
-  {
-    icon: AlertIcon,
-    title: 'Additive Alerts',
-    description: 'Flags artificial colors, flavor enhancers, and WHO-listed harmful chemicals.',
-  },
-  {
-    icon: GaugeIcon,
-    title: 'Smart Scoring',
-    description: 'A 1-10 rating calibrated to real nutritional guidelines, not marketing claims.',
+    icon: AlertCircleIcon,
+    title: 'Custom Allergy Alerts',
+    description: 'Set your allergens and dietary restrictions to get instant warnings before you buy.',
   },
   {
     icon: BoltIcon,
-    title: 'Under 5 Seconds',
-    description: 'Fast label analysis with near-instant responses.',
+    title: 'Ask the AI',
+    description: 'Have a conversation directly with your food label to get context-specific nutritional answers.',
   },
   {
-    icon: ZeroIcon,
-    title: 'Zero Storage',
-    description: 'Your images are never saved. Analysis is real-time and ephemeral.',
+    icon: ScaleIcon,
+    title: 'Side-by-Side Comparisons',
+    description: 'Upload two labels to instantly see a detailed breakdown and find out which product wins.',
+  },
+  {
+    icon: HistoryListIcon,
+    title: 'Scan History',
+    description: 'Automatically keep a log of everything you scan to track your dietary habits over time.',
+  },
+  {
+    icon: PackageIcon,
+    title: 'Smart Breakdown',
+    description: 'Instantly identifies every hidden sugar, additive, and E-number by its real name.',
   },
 ]
 

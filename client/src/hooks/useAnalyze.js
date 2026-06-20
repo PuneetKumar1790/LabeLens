@@ -1,25 +1,23 @@
 import { useState } from 'react'
-import axios from 'axios'
-
-const fallbackApiBase =
-  import.meta.env.MODE === 'production' ? 'https://labellens-api.onrender.com' : 'http://localhost:3001'
-
-const apiBase = (import.meta.env.VITE_API_URL || fallbackApiBase).replace(/\/$/, '')
+import api from '../services/api'
 
 export const useAnalyze = () => {
   const [status, setStatus] = useState('idle')
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
 
-  const analyze = async (file) => {
+  const analyze = async (file, userContext = null) => {
     setStatus('loading')
     setError(null)
 
     try {
       const formData = new FormData()
       formData.append('label', file)
+      if (userContext) {
+        formData.append('userContext', JSON.stringify(userContext))
+      }
 
-      const res = await axios.post(`${apiBase}/api/analyze`, formData, {
+      const res = await api.post('/api/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
 

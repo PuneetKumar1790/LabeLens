@@ -1,0 +1,4 @@
+# Antigravity Rules
+
+- You are allowed to run all commands necessary to build, test, and develop the application.
+- NEVER execute `git push` to push code to GitHub or any other remote repository. Keep all code changes local.
