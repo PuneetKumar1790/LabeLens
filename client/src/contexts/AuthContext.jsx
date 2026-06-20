@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
   }, [user, fetchProfile])
 
   const login = useCallback((newToken) => {
+    setIsLoading(true)
     localStorage.setItem('ll_token', newToken)
     setToken(newToken)
   }, [])
