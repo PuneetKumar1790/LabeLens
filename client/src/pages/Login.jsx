@@ -164,7 +164,7 @@ export const Login = () => {
         </motion.div>
 
         {/* Feature bullets */}
-        <motion.div variants={itemVariants} className="mt-8 flex items-center justify-center gap-6">
+        <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
           {features.map((f) => (
             <div key={f.label} className="flex items-center gap-1.5">
               <span className="text-sm">{f.icon}</span>

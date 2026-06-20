@@ -16,7 +16,6 @@ export const ScanDetail = () => {
       try {
         setLoading(true)
         const res = await api.get(`/api/history/${id}`)
-        
         const rawScan = res.data.data
         // Map ScanHistory model back to AnalysisResult expected shape
         const mappedScan = {

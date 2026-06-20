@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { BreakdownBar } from './BreakdownBar'
 import { ScoreRing } from './ScoreRing'
+import { AllergyAlerts } from './AllergyAlerts'
+import { RedFlags } from './RedFlags'
 import { scoreColor } from '../utils/scoreColor'
 import { createShareCardFile } from '../utils/shareCard'
 
@@ -85,6 +87,11 @@ export const AnalysisResult = ({ result, onReset }) => {
         <p className="mx-auto mt-5 max-w-xl font-serif text-2xl italic leading-8 text-text-1">
           "{result.verdict}"
         </p>
+      </div>
+
+      <div className="mt-8">
+        <AllergyAlerts alerts={result.allergy_alerts || []} />
+        <RedFlags flags={result.red_flags || []} />
       </div>
 
       <div className="mt-12">
