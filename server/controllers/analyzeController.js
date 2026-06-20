@@ -322,7 +322,6 @@ export const analyzeLabel = async (req, res) => {
     // Optionally upload image to Azure Blob Storage
     let imageUrl = null
     if (
-      req.user?.saveImages &&
       process.env.AZURE_STORAGE_CONNECTION_STRING &&
       process.env.AZURE_STORAGE_CONNECTION_STRING.trim() !== ''
     ) {

@@ -125,21 +125,6 @@ export const Settings = () => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="space-y-6"
         >
-          {/* Privacy */}
-          <div>
-            <p className="font-syne text-xs text-text-3 uppercase tracking-widest mb-3 px-1">Privacy</p>
-            <SettingsCard>
-              <SettingsRow
-                label="Save scan images to cloud"
-                description="When enabled, your label images are stored securely in the cloud for scan history."
-              >
-                <Toggle
-                  checked={saveImages}
-                  onChange={savingToggle ? undefined : handleToggleSaveImages}
-                />
-              </SettingsRow>
-            </SettingsCard>
-          </div>
 
           {/* Account */}
           <div>
