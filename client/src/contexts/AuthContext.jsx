@@ -6,10 +6,15 @@ const AuthContext = createContext(null)
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(() => localStorage.getItem('ll_token'))
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(() => {
+    const hasStoredToken = !!localStorage.getItem('ll_token')
+    const hasUrlToken = window.location.pathname.startsWith('/auth/callback') || window.location.search.includes('token=')
+    return hasStoredToken || hasUrlToken
+  })
   const [userProfile, setUserProfile] = useState(null)
 
   const fetchMe = useCallback(async (t) => {
+    setIsLoading(true)
     try {
       const res = await api.get('/api/auth/me', { headers: { Authorization: `Bearer ${t}` } })
       setUser(res.data.data)
@@ -33,8 +38,12 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (token) fetchMe(token)
-    else setIsLoading(false)
+    const hasUrlToken = window.location.pathname.startsWith('/auth/callback') || window.location.search.includes('token=')
+    if (token) {
+      fetchMe(token)
+    } else if (!hasUrlToken) {
+      setIsLoading(false)
+    }
   }, [token, fetchMe])
 
   useEffect(() => {
