@@ -104,10 +104,13 @@ export const Profile = () => {
   const [avoidedInput, setAvoidedInput] = useState('')
   const [savingSection, setSavingSection] = useState(null)
 
+  const [original, setOriginal] = useState(null)
+
   useEffect(() => {
     const load = async () => {
       const profile = await fetchProfile()
       if (!profile) return
+      setOriginal(profile)
       setGoals(profile.prefs?.healthGoals || [])
       setDietary(profile.prefs?.dietaryPreferences || [])
       setCommonAllergens(profile.allergy?.commonAllergens || [])
@@ -127,9 +130,17 @@ export const Profile = () => {
   }
 
   const savePreferences = async () => {
+    const origGoals = original?.prefs?.healthGoals || []
+    const origDiet = original?.prefs?.dietaryPreferences || []
+    if (JSON.stringify(origGoals) === JSON.stringify(goals) && JSON.stringify(origDiet) === JSON.stringify(dietary)) {
+      showToast('No changes made.')
+      return
+    }
     setSavingSection('prefs')
     try {
       await api.put('/api/user/preferences', { healthGoals: goals, dietaryPreferences: dietary })
+      const updated = await fetchProfile()
+      setOriginal(updated)
       showToast('Preferences saved!')
     } catch {
       showToast('Failed to save preferences', 'error')
@@ -139,9 +150,17 @@ export const Profile = () => {
   }
 
   const saveAllergies = async () => {
+    const origCommon = original?.allergy?.commonAllergens || []
+    const origCustom = original?.allergy?.customAllergens || []
+    if (JSON.stringify(origCommon) === JSON.stringify(commonAllergens) && JSON.stringify(origCustom) === JSON.stringify(customAllergens)) {
+      showToast('No changes made.')
+      return
+    }
     setSavingSection('allergies')
     try {
       await api.put('/api/user/allergies', { commonAllergens, customAllergens })
+      const updated = await fetchProfile()
+      setOriginal(updated)
       showToast('Allergy profile saved!')
     } catch {
       showToast('Failed to save', 'error')
@@ -151,9 +170,16 @@ export const Profile = () => {
   }
 
   const saveAvoided = async () => {
+    const origAvoided = original?.avoided?.ingredients || []
+    if (JSON.stringify(origAvoided) === JSON.stringify(avoided)) {
+      showToast('No changes made.')
+      return
+    }
     setSavingSection('avoided')
     try {
       await api.put('/api/user/avoided', { ingredients: avoided })
+      const updated = await fetchProfile()
+      setOriginal(updated)
       showToast('Avoided ingredients saved!')
     } catch {
       showToast('Failed to save', 'error')
