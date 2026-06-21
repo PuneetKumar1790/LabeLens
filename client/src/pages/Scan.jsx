@@ -47,10 +47,16 @@ export const Scan = () => {
         <div className="mt-10">
           <AnimatePresence mode="wait">
             {status === 'success' && result ? (
-              <div key="result">
+              <motion.div
+                key="result"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+              >
                 <AnalysisResult result={result} onReset={handleReset} />
                 <AskAI productData={result} />
-              </div>
+              </motion.div>
             ) : (
               <motion.div
                 key="upload"
