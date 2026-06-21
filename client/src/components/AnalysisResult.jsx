@@ -194,19 +194,22 @@ const copyText = async (text) => {
   }
 }
 
-const List = ({ title, color, items }) => (
-  <div>
-    <h3 className="font-syne text-sm font-bold text-text-1">{title}</h3>
-    <motion.ul
-      initial="hidden"
-      animate="show"
-      variants={{
-        hidden: {},
-        show: { transition: { staggerChildren: 0.08 } },
-      }}
-      className="mt-4 space-y-3"
-    >
-      {(items.length ? items : ['No clear item detected.']).map((item) => (
+const List = ({ title, color, items }) => {
+  const safeItems = Array.isArray(items) ? items : (typeof items === 'string' && items.trim() ? [items] : [])
+
+  return (
+    <div>
+      <h3 className="font-syne text-sm font-bold text-text-1">{title}</h3>
+      <motion.ul
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.08 } },
+        }}
+        className="mt-4 space-y-3"
+      >
+        {(safeItems.length ? safeItems : ['No clear item detected.']).map((item) => (
         <motion.li
           key={item}
           variants={{
@@ -221,4 +224,5 @@ const List = ({ title, color, items }) => (
       ))}
     </motion.ul>
   </div>
-)
+  )
+}

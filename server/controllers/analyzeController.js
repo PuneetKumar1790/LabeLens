@@ -142,16 +142,20 @@ export const normalizeResult = (result) => {
     }
   }
 
+  const ensureArray = (val) => Array.isArray(val) ? val : (typeof val === 'string' && val.trim() ? [val] : [])
+
   return {
     ...result,
     overall_score: overallScore,
     score_label: scoreLabel(overallScore),
     breakdown,
     ...(result.goal_scores ? { goal_scores } : {}),
-    ingredients: Array.isArray(result.ingredients) ? result.ingredients : [],
+    positives: ensureArray(result.positives),
+    negatives: ensureArray(result.negatives),
+    ingredients: ensureArray(result.ingredients),
     score_factors: result.score_factors || { positives: [], negatives: [] },
-    red_flags: Array.isArray(result.red_flags) ? result.red_flags : [],
-    allergen_suspects: Array.isArray(result.allergen_suspects) ? result.allergen_suspects : [],
+    red_flags: ensureArray(result.red_flags),
+    allergen_suspects: ensureArray(result.allergen_suspects),
   }
 }
 
