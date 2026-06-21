@@ -319,9 +319,10 @@ export const analyzeLabel = async (req, res) => {
     const forYou = buildForYou(result, userContext, allergyAlerts, avoidedWarnings)
     result.for_you = forYou
 
-    // Optionally upload image to Azure Blob Storage
+    // Optionally upload image to Azure Blob Storage only if user enabled it in settings
     let imageUrl = null
     if (
+      req.user?.saveImages &&
       process.env.AZURE_STORAGE_CONNECTION_STRING &&
       process.env.AZURE_STORAGE_CONNECTION_STRING.trim() !== ''
     ) {
