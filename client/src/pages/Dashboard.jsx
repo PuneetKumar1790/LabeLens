@@ -77,7 +77,7 @@ const ScanCard = ({ scan }) => {
 }
 
 export const Dashboard = () => {
-  const { user } = useAuth()
+  const { user, userProfile } = useAuth()
   const navigate = useNavigate()
   const [stats, setStats] = useState(null)
   const [recentScans, setRecentScans] = useState([])
