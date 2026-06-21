@@ -185,3 +185,82 @@ export const deleteScan = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+
+// ---------------------------------------------------------------------------
+// GET /api/history/summary
+// Consolidated stats and recent history for authenticated user
+// ---------------------------------------------------------------------------
+export const getDashboardSummary = async (req, res) => {
+  try {
+    const userId = req.user._id
+
+    const [totalScans, scoreAgg, highestDoc, lowestDoc, redFlagAgg, recentScans] = await Promise.all([
+      // Total scans
+      ScanHistory.countDocuments({ userId }),
+
+      // Average score
+      ScanHistory.aggregate([
+        { $match: { userId } },
+        { $group: { _id: null, avgScore: { $avg: '$healthScore' } } },
+      ]),
+
+      // Highest scored product
+      ScanHistory.findOne({ userId, healthScore: { $exists: true, $ne: null } })
+        .sort({ healthScore: -1 })
+        .select('productName healthScore createdAt')
+        .lean(),
+
+      // Lowest scored product
+      ScanHistory.findOne({ userId, healthScore: { $exists: true, $ne: null } })
+        .sort({ healthScore: 1 })
+        .select('productName healthScore createdAt')
+        .lean(),
+
+      // Most common red flag
+      ScanHistory.aggregate([
+        { $match: { userId, redFlags: { $exists: true, $not: { $size: 0 } } } },
+        { $unwind: '$redFlags' },
+        { $group: { _id: '$redFlags.label', count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 1 },
+      ]),
+
+      // Recent scans (limit 5)
+      ScanHistory.find({ userId })
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .lean(),
+    ])
+
+    const avgScore =
+      scoreAgg.length > 0
+        ? Number((scoreAgg[0].avgScore || 0).toFixed(1))
+        : null
+
+    const mostCommonRedFlag =
+      redFlagAgg.length > 0
+        ? { label: redFlagAgg[0]._id, count: redFlagAgg[0].count }
+        : null
+
+    res.json({
+      success: true,
+      data: {
+        stats: {
+          totalScans,
+          avgScore,
+          highestScore: highestDoc
+            ? { productName: highestDoc.productName, score: highestDoc.healthScore }
+            : null,
+          lowestScore: lowestDoc
+            ? { productName: lowestDoc.productName, score: lowestDoc.healthScore }
+            : null,
+          mostCommonRedFlag,
+        },
+        recentScans,
+      },
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+

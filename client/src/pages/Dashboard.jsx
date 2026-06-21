@@ -87,12 +87,10 @@ export const Dashboard = () => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const [statsRes, histRes] = await Promise.all([
-          api.get('/api/history/stats'),
-          api.get('/api/history?limit=5'),
-        ])
-        setStats(statsRes.data.data || statsRes.data)
-        setRecentScans(histRes.data.data?.scans || histRes.data.scans || [])
+        const res = await api.get('/api/history/summary')
+        const summary = res.data.data
+        setStats(summary.stats)
+        setRecentScans(summary.recentScans || [])
       } catch {
         // keep empty
       } finally {
