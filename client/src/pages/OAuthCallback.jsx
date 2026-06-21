@@ -4,23 +4,37 @@ import { useAuth } from '../contexts/AuthContext'
 
 export const OAuthCallback = () => {
   const [params] = useSearchParams()
-  const { login } = useAuth()
+  const { login, token: contextToken, user, isLoading } = useAuth()
   const navigate = useNavigate()
 
+  const urlToken = params.get('token')
+  const oauthError = params.get('error')
+
+  // Trigger login action if token is in URL
   useEffect(() => {
-    const token = params.get('token')
-    const error = params.get('error')
-    if (error) {
-      navigate('/login?error=oauth_failed')
+    if (oauthError) {
+      navigate(`/login?error=${oauthError}`)
       return
     }
-    if (token) {
-      login(token)
-      navigate('/dashboard')
-      return
+    if (urlToken) {
+      login(urlToken)
+    } else {
+      navigate('/login')
     }
-    navigate('/login')
-  }, [params, login, navigate])
+  }, [urlToken, oauthError, login, navigate])
+
+  // Navigate only after the context token has updated and the user fetch is complete
+  useEffect(() => {
+    if (urlToken && contextToken === urlToken) {
+      if (!isLoading) {
+        if (user) {
+          navigate('/dashboard')
+        } else {
+          navigate('/login?error=oauth_failed')
+        }
+      }
+    }
+  }, [urlToken, contextToken, user, isLoading, navigate])
 
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center">
