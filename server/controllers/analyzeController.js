@@ -144,16 +144,42 @@ export const normalizeResult = (result) => {
 
   const ensureArray = (val) => Array.isArray(val) ? val : (typeof val === 'string' && val.trim() ? [val] : [])
 
+  let positives = ensureArray(result.positives)
+  let negatives = ensureArray(result.negatives)
+  const scoreFactors = result.score_factors || { positives: [], negatives: [] }
+
+  if (positives.length === 0 && Array.isArray(scoreFactors.positives) && scoreFactors.positives.length > 0) {
+    positives = scoreFactors.positives.map(x => x?.label).filter(Boolean)
+  }
+  
+  if (negatives.length === 0 && Array.isArray(scoreFactors.negatives) && scoreFactors.negatives.length > 0) {
+    negatives = scoreFactors.negatives.map(x => x?.label).filter(Boolean)
+  }
+
+  if (positives.length === 0) {
+    if (breakdown.protein?.level === 'High') positives.push('Good source of protein')
+    if (breakdown.fiber?.level === 'High') positives.push('Good source of fiber')
+    if (breakdown.sugar?.level === 'Low') positives.push('Low in sugar')
+    if (breakdown.additives?.level === 'Low') positives.push('Low in artificial additives')
+    if (breakdown.sodium?.level === 'Low') positives.push('Low in sodium')
+  }
+
+  if (negatives.length === 0) {
+    if (breakdown.sugar?.level === 'High') negatives.push('High in sugar')
+    if (breakdown.sodium?.level === 'High') negatives.push('High in sodium')
+    if (breakdown.additives?.level === 'High') negatives.push('High amount of artificial additives')
+  }
+
   return {
     ...result,
     overall_score: overallScore,
     score_label: scoreLabel(overallScore),
     breakdown,
     ...(result.goal_scores ? { goal_scores } : {}),
-    positives: ensureArray(result.positives),
-    negatives: ensureArray(result.negatives),
+    positives,
+    negatives,
     ingredients: ensureArray(result.ingredients),
-    score_factors: result.score_factors || { positives: [], negatives: [] },
+    score_factors: scoreFactors,
     red_flags: ensureArray(result.red_flags),
     allergen_suspects: ensureArray(result.allergen_suspects),
   }
