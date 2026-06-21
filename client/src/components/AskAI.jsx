@@ -26,6 +26,7 @@ export const AskAI = ({ productData }) => {
       const res = await api.post('/api/chat-about-product', {
         question,
         productData,
+        scanId: productData._id || productData.id,
       })
       setAnswer(res.data.data?.answer || res.data.answer || res.data.data || 'No response.')
     } catch (err) {

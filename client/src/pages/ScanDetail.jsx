@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Navbar } from '../components/Navbar'
 import { AnalysisResult } from '../components/AnalysisResult'
+import { AskAI } from '../components/AskAI'
 import api from '../services/api'
 
 export const ScanDetail = () => {
@@ -80,6 +81,7 @@ export const ScanDetail = () => {
               </div>
             )}
             <AnalysisResult result={scan} onReset={() => window.location.href = '/scan'} />
+            <AskAI productData={scan} />
           </motion.div>
         ) : null}
       </main>

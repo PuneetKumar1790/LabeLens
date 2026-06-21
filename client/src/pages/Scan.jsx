@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { UploadZone } from '../components/UploadZone'
 import { AnalysisResult } from '../components/AnalysisResult'
+import { AskAI } from '../components/AskAI'
 import { useAnalyze } from '../hooks/useAnalyze'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -46,7 +47,10 @@ export const Scan = () => {
         <div className="mt-10">
           <AnimatePresence mode="wait">
             {status === 'success' && result ? (
-              <AnalysisResult key="result" result={result} onReset={handleReset} />
+              <div key="result">
+                <AnalysisResult result={result} onReset={handleReset} />
+                <AskAI productData={result} />
+              </div>
             ) : (
               <motion.div
                 key="upload"
