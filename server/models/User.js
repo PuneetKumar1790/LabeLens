@@ -8,7 +8,7 @@ const userSchema = new Schema({
   authProvider: { type: String, enum: ['google'], default: 'google' },
   googleId: { type: String, unique: true, sparse: true },
   onboardingCompleted: { type: Boolean, default: false },
-  saveImages: { type: Boolean, default: false },
+  saveImages: { type: Boolean, default: true },
 }, { timestamps: true })
 
 userSchema.index({ email: 1 })
