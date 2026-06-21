@@ -124,7 +124,9 @@ export const AnalysisResult = ({ result, onReset }) => {
         </div>
         <div>
           <h3 className="font-syne text-sm font-bold text-text-1">Recommendation</h3>
-          <p className="mt-3 font-syne text-[15px] leading-7 text-text-2">{result.recommendation}</p>
+          <p className="mt-3 font-syne text-[15px] leading-7 text-text-2">
+            {result.for_you?.final_recommendation || result.recommendation}
+          </p>
         </div>
       </div>
 

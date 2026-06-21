@@ -227,7 +227,7 @@ const buildForYou = (result, userContext, allergyAlerts, avoidedWarnings) => {
 
     const dietaryKeywords = {
       vegetarian: ['meat', 'chicken', 'beef', 'pork', 'lamb', 'fish', 'seafood', 'gelatin'],
-      vegan: ['meat', 'poultry', 'fish', 'dairy', 'egg', 'honey', 'gelatin', 'carmine'],
+      vegan: ['meat', 'poultry', 'fish', 'dairy', 'milk', 'cheese', 'butter', 'whey', 'casein', 'ghee', 'curd', 'yogurt', 'egg', 'honey', 'gelatin', 'carmine'],
       jain: ['meat', 'poultry', 'fish', 'egg', 'onion', 'garlic', 'potato', 'carrot', 'turnip', 'radish'],
       kosher: ['pork', 'shellfish'],
       gluten_free: ['wheat', 'gluten', 'barley', 'rye', 'oat'],
