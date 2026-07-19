@@ -1,13 +1,13 @@
 # Product Hunt
 
 <p align="center">
-	<a href="https://www.producthunt.com/">
-		<img src="https://img.shields.io/badge/Product%20Hunt-%2311-orange?logo=producthunt&logoColor=white" alt="Product Hunt #11" />
+	<a href="https://www.producthunt.com/products/labellens">
+		<img src="client/public/assets/readme.jpeg" alt="LabelLens featured #11 on Product Hunt" width="100%" />
 	</a>
 </p>
 
 <p align="center">
-	<strong>🚀 Labellens — Featured #11 on Product Hunt!</strong>
+	<strong>🚀 LabelLens — Featured #11 on Product Hunt</strong>
 </p>
 
 ---
