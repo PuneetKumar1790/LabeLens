@@ -1,0 +1,23 @@
+{
+  "name": "LabelLens — AI Nutrition Label Scanner",
+  "short_name": "LabelLens",
+  "description": "Scan food nutrition labels and get an instant health score out of 10.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "/assets/logo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/logo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

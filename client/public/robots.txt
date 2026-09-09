@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /scan
+Allow: /compare
+Allow: /privacy
+Allow: /terms
+Allow: /assets/
+
+# Disallow private user routes and internal auth callbacks
+Disallow: /dashboard
+Disallow: /history
+Disallow: /profile
+Disallow: /settings
+Disallow: /onboarding
+Disallow: /auth/
+
+Sitemap: https://www.labellens.app/sitemap.xml

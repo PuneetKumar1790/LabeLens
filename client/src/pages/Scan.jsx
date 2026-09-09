@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { SEO } from '../components/SEO'
 import { UploadZone } from '../components/UploadZone'
 import { AnalysisResult } from '../components/AnalysisResult'
 import { AskAI } from '../components/AskAI'
@@ -25,6 +26,11 @@ export const Scan = () => {
 
   return (
     <div className="min-h-screen bg-bg px-5 py-8 text-text-1 sm:px-8">
+      <SEO
+        title="Scan Nutrition Label — Instant AI Food Health Analysis"
+        description="Upload or snap a photo of any food label. AI instantly analyzes nutrition facts, hidden sugars, additives, and delivers an objective 1-10 health score."
+        canonicalPath="/scan"
+      />
       <main className="mx-auto max-w-[720px] pt-10 sm:pt-20">
         <Link to="/" className="font-syne text-[13px] text-text-2 hover:text-text-1">
           ← Back to home

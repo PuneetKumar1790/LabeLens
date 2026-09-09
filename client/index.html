@@ -3,15 +3,148 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LabelLens — AI Food Label Scanner &amp; Nutrition Health Score</title>
     <meta
       name="description"
-      content="LabelLens reads packaged food labels and gives you a clear nutrition score."
+      content="Scan any packaged food label with AI. Instantly decode hidden sugars, harmful additives, and E-numbers with a clear 1-10 health rating. 100% free."
     />
+    <meta
+      name="keywords"
+      content="food label scanner, nutrition label scanner, food health score, ingredient analyzer, additives scanner, e-numbers detector, healthy food checker, diet scanner, nutrition facts scanner, grocery scanner"
+    />
+    <meta name="author" content="LabelLens" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://www.labellens.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.labellens.app/" />
+    <meta property="og:site_name" content="LabelLens" />
+    <meta property="og:title" content="LabelLens — AI Food Label Scanner &amp; Nutrition Health Score" />
+    <meta
+      property="og:description"
+      content="Scan any packaged food label with AI. Instantly decode hidden sugars, harmful additives, and E-numbers with a clear 1-10 health rating. 100% free."
+    />
+    <meta property="og:image" content="https://www.labellens.app/assets/readme.jpeg" />
+    <meta property="og:image:alt" content="LabelLens - AI Nutrition Label Scanner" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://www.labellens.app/" />
+    <meta name="twitter:title" content="LabelLens — AI Food Label Scanner &amp; Nutrition Health Score" />
+    <meta
+      name="twitter:description"
+      content="Scan any packaged food label with AI. Instantly decode hidden sugars, harmful additives, and E-numbers with a clear 1-10 health rating. 100% free."
+    />
+    <meta name="twitter:image" content="https://www.labellens.app/assets/readme.jpeg" />
+
+    <!-- Mobile & PWA Theme -->
+    <meta name="theme-color" content="#080808" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LabelLens" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Favicon & Icons -->
     <link rel="icon" href="/assets/logo-icon.png" />
     <link rel="apple-touch-icon" href="/assets/logo-icon.png" />
-    <title>LabelLens - See Beyond the Label</title>
+
+    <!-- Preconnect Fonts for Core Web Vitals (FCP/LCP) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <!-- Preload hero card image to reduce perceived load time -->
-    <link rel="preload" as="image" href="/assets/card.png">
+    <link rel="preload" as="image" href="/assets/card.png" />
+
+    <!-- Schema.org Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://www.labellens.app/#webapp",
+          "name": "LabelLens",
+          "url": "https://www.labellens.app",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "All",
+          "description": "LabelLens reads packaged food nutrition labels using AI vision, reveals hidden sugars and additives, and delivers a clear 1-10 health rating.",
+          "image": "https://www.labellens.app/assets/logo-icon.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Instant nutrition label scanner using AI vision",
+            "1-10 plain-English food health score",
+            "Hidden sugars and artificial sweetener detection",
+            "Harmful food additives and E-number analysis",
+            "Side-by-side food comparison tool",
+            "Personalized diet and allergy alerts"
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://www.labellens.app/#organization",
+          "name": "LabelLens",
+          "url": "https://www.labellens.app",
+          "logo": "https://www.labellens.app/assets/logo-icon.png",
+          "sameAs": [
+            "https://www.producthunt.com/products/labellens"
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://www.labellens.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How does LabelLens analyze packaged food labels?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LabelLens uses advanced vision AI to scan the ingredients list, nutrition facts table, and allergen warnings from any photo. It checks each ingredient against dietary standards to calculate an objective health score from 1 to 10."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does the 1 to 10 nutrition score mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The score summarizes overall nutritional quality. Scores from 8 to 10 indicate clean, nutrient-dense whole foods. Scores from 5 to 7 indicate moderate processed foods with reasonable macros. Scores below 5 highlight excessive added sugars, harmful additives, or ultra-processed ingredients."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can LabelLens detect hidden sugars, harmful additives, and E-numbers?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. LabelLens flags all 60+ names for hidden sugars (such as maltodextrin, high-fructose corn syrup, dextrose), artificial sweeteners (such as sucralose, aspartame), and potentially harmful food additives or chemical preservatives."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the side-by-side food comparison feature work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LabelLens allows you to upload photos of two competing products (for example, two cereals or protein bars) and immediately compares them on sugar, protein, fiber, sodium, additive levels, and overall health score to tell you which is better."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is LabelLens free to use, and is my data private?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "LabelLens is 100% free to use with no account required for instant scans. We do not store your food label photos or sell your personal data."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
       (function (c, l, a, r, i, t, y) {

@@ -1,9 +1,15 @@
+import { SEO } from '../components/SEO'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 
 export const Terms = () => {
   return (
     <div className="min-h-screen bg-bg text-text-1 flex flex-col">
+      <SEO
+        title="Terms of Service"
+        description="Review the Terms of Service for using LabelLens food nutrition analysis application."
+        canonicalPath="/terms"
+      />
       <Navbar />
       <main className="flex-1 mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <h1 className="font-serif text-4xl mb-8">Terms of Service</h1>

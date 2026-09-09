@@ -1,9 +1,15 @@
+import { SEO } from '../components/SEO'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 
 export const Privacy = () => {
   return (
     <div className="min-h-screen bg-bg text-text-1 flex flex-col">
+      <SEO
+        title="Privacy Policy"
+        description="Learn how LabelLens protects your privacy and handles food label photos and user data."
+        canonicalPath="/privacy"
+      />
       <Navbar />
       <main className="flex-1 mx-auto max-w-3xl px-5 py-16 sm:px-8">
         <h1 className="font-serif text-4xl mb-8">Privacy Policy</h1>

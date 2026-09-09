@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDropzone } from 'react-dropzone'
+import { SEO } from '../components/SEO'
 import { Navbar } from '../components/Navbar'
 import { CameraIcon } from '../components/Icons'
 import api from '../services/api'
@@ -168,6 +169,11 @@ export const Compare = () => {
 
   return (
     <div className="min-h-screen bg-bg text-text-1">
+      <SEO
+        title="Compare Food Nutrition Labels Side-by-Side"
+        description="Upload two packaged food labels and compare nutrition facts, sugar, protein, sodium, additives, and overall health scores side-by-side with AI."
+        canonicalPath="/compare"
+      />
       <Navbar />
       <main className="mx-auto max-w-4xl px-5 py-10 sm:px-8">
         {/* Header */}
