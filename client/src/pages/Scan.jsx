@@ -6,6 +6,7 @@ import { UploadZone } from '../components/UploadZone'
 import { AnalysisResult } from '../components/AnalysisResult'
 import { AskAI } from '../components/AskAI'
 import { UpgradeModal } from '../components/UpgradeModal'
+import { BoltIcon } from '../components/Icons'
 import { useAnalyze } from '../hooks/useAnalyze'
 import { useAuth } from '../contexts/AuthContext'
 
@@ -99,7 +100,9 @@ export const Scan = () => {
                         onClick={() => setUpgradeOpen(true)}
                         className="mt-4 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-syne text-sm font-bold text-bg hover:brightness-105"
                       >
-                        ⚡ Upgrade to LabelLens Pro →
+                        <BoltIcon className="h-4 w-4" />
+                        <span>Upgrade to LabelLens Pro</span>
+                        <span aria-hidden="true">→</span>
                       </button>
                     ) : (
                       <button

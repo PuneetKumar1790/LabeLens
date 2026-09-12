@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from './Logo'
 import { UpgradeModal } from './UpgradeModal'
+import { BoltIcon, SparkleIcon } from './Icons'
 import { useAuth } from '../contexts/AuthContext'
 
 const links = [
@@ -55,8 +56,9 @@ export const Navbar = () => {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {isPro ? (
-            <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-300">
-              ⭐ PRO
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-300">
+              <SparkleIcon className="h-3 w-3 text-amber-300" />
+              <span>PRO</span>
             </span>
           ) : (
             <button
@@ -64,7 +66,8 @@ export const Navbar = () => {
               onClick={() => setUpgradeOpen(true)}
               className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-syne text-[12px] font-bold text-accent hover:bg-accent hover:text-bg transition-colors"
             >
-              ⚡ Upgrade
+              <BoltIcon className="h-3.5 w-3.5" />
+              <span>Upgrade</span>
             </button>
           )}
 
@@ -173,9 +176,10 @@ export const Navbar = () => {
                     setOpen(false)
                     setUpgradeOpen(true)
                   }}
-                  className="text-left border-b border-border/70 py-3 font-syne text-sm font-bold text-accent"
+                  className="flex items-center gap-2 text-left border-b border-border/70 py-3 font-syne text-sm font-bold text-accent"
                 >
-                  ⚡ Upgrade to Pro
+                  <BoltIcon className="h-4 w-4" />
+                  <span>Upgrade to Pro</span>
                 </button>
               )}
             </div>

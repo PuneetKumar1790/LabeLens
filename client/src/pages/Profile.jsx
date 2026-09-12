@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '../components/Navbar'
 import { UpgradeModal } from '../components/UpgradeModal'
+import { BoltIcon, SparkleIcon } from '../components/Icons'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 
@@ -244,8 +245,9 @@ export const Profile = () => {
             <div className="flex flex-wrap items-center gap-2">
               <p className="font-syne text-lg font-bold text-text-1 truncate">{user?.name || 'User'}</p>
               {user?.subscriptionStatus === 'active' ? (
-                <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-amber-300">
-                  ⭐ PRO MEMBER
+                <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-amber-300">
+                  <SparkleIcon className="h-3 w-3 text-amber-300" />
+                  <span>PRO MEMBER</span>
                 </span>
               ) : (
                 <span className="rounded-full border border-border bg-bg px-2.5 py-0.5 font-mono text-[10px] text-text-3">
@@ -259,9 +261,10 @@ export const Profile = () => {
             <button
               type="button"
               onClick={() => setUpgradeOpen(true)}
-              className="shrink-0 rounded-lg bg-accent px-4 py-2 font-syne text-xs font-bold text-bg hover:brightness-105"
+              className="inline-flex items-center gap-1.5 shrink-0 rounded-lg bg-accent px-4 py-2 font-syne text-xs font-bold text-bg hover:brightness-105"
             >
-              ⚡ Upgrade to Pro
+              <BoltIcon className="h-3.5 w-3.5" />
+              <span>Upgrade to Pro</span>
             </button>
           )}
         </motion.div>
