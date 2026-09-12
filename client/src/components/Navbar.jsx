@@ -56,15 +56,15 @@ export const Navbar = () => {
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {isPro ? (
-            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-300">
-              <SparkleIcon className="h-3 w-3 text-amber-300" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/40 bg-amber-500/15 px-2.5 py-1 font-mono text-[11px] font-bold text-amber-300 shadow-[0_0_12px_rgba(245,165,36,0.2)]">
+              <SparkleIcon className="h-3.5 w-3.5 text-amber-300" />
               <span>PRO</span>
             </span>
           ) : (
             <button
               type="button"
               onClick={() => setUpgradeOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-syne text-[12px] font-bold text-accent hover:bg-accent hover:text-bg transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 bg-accent/15 px-3.5 py-1.5 font-syne text-[12px] font-bold text-accent shadow-[0_0_14px_rgba(212,245,60,0.2)] hover:bg-accent hover:text-bg transition-all"
             >
               <BoltIcon className="h-3.5 w-3.5" />
               <span>Upgrade</span>
