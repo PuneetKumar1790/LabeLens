@@ -61,7 +61,7 @@ export const Footer = () => (
               rel="noopener noreferrer"
               className="hover:text-text-1 transition-colors"
             >
-              Product Hunt (#11) ↗
+              Product Hunt (#10) ↗
             </a>
           </li>
           <li>

@@ -1,11 +1,11 @@
-﻿<p align="center">
+<p align="center">
   <a href="https://www.producthunt.com/products/labellens">
-    <img src="client/public/assets/readme.jpeg" alt="LabelLens featured #11 on Product Hunt" width="100%" />
+    <img src="client/public/assets/readme.jpeg" alt="LabelLens featured #10 on Product Hunt" width="100%" />
   </a>
 </p>
 
 <p align="center">
-  <strong>🚀 LabelLens — Featured #11 on Product Hunt</strong>
+  <strong>🚀 LabelLens — Featured #10 on Product Hunt</strong>
   <br />
   <em>The AI-Powered Food Nutrition Scanner & Health Intelligence Platform</em>
 </p>
