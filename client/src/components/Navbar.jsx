@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from './Logo'
@@ -15,10 +15,27 @@ const links = [
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [upgradeOpen, setUpgradeOpen] = useState(false)
+  const [upgradeOpen, setUpgradeOpen] = useState(() => {
+    try {
+      return new URLSearchParams(window.location.search).get('upgrade') === 'true'
+    } catch {
+      return false
+    }
+  })
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const isPro = user?.subscriptionStatus === 'active'
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('upgrade') === 'true') {
+        setUpgradeOpen(true)
+      }
+    } catch {
+      // ignore
+    }
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -27,7 +44,8 @@ export const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
+    <>
+      <header className="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-md">
       <nav className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="LabelLens home">
           <Logo className="h-10 w-10 shrink-0" />
@@ -187,7 +205,8 @@ export const Navbar = () => {
         ) : null}
       </AnimatePresence>
 
+      </header>
       <UpgradeModal isOpen={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
-    </header>
+    </>
   )
 }
