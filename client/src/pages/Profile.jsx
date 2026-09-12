@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '../components/Navbar'
+import { UpgradeModal } from '../components/UpgradeModal'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 
@@ -94,6 +95,7 @@ const Section = ({ title, children, onSave, saving }) => {
 export const Profile = () => {
   const { user, fetchProfile } = useAuth()
   const [toast, setToast] = useState(null)
+  const [upgradeOpen, setUpgradeOpen] = useState(false)
 
   const [goals, setGoals] = useState([])
   const [dietary, setDietary] = useState([])
@@ -238,10 +240,30 @@ export const Profile = () => {
               {initial}
             </div>
           )}
-          <div>
-            <p className="font-syne text-lg font-bold text-text-1">{user?.name || 'User'}</p>
-            <p className="font-syne text-sm text-text-2">{user?.email || ''}</p>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="font-syne text-lg font-bold text-text-1 truncate">{user?.name || 'User'}</p>
+              {user?.subscriptionStatus === 'active' ? (
+                <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-amber-300">
+                  ⭐ PRO MEMBER
+                </span>
+              ) : (
+                <span className="rounded-full border border-border bg-bg px-2.5 py-0.5 font-mono text-[10px] text-text-3">
+                  FREE TIER ({user?.scansCount || 0}/3 SCANS)
+                </span>
+              )}
+            </div>
+            <p className="font-syne text-sm text-text-2 truncate">{user?.email || ''}</p>
           </div>
+          {user?.subscriptionStatus !== 'active' && (
+            <button
+              type="button"
+              onClick={() => setUpgradeOpen(true)}
+              className="shrink-0 rounded-lg bg-accent px-4 py-2 font-syne text-xs font-bold text-bg hover:brightness-105"
+            >
+              ⚡ Upgrade to Pro
+            </button>
+          )}
         </motion.div>
 
         {/* Sections */}
@@ -374,6 +396,8 @@ export const Profile = () => {
       <AnimatePresence>
         {toast && <Toast message={toast.message} type={toast.type} />}
       </AnimatePresence>
+
+      <UpgradeModal isOpen={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     </div>
   )
 }

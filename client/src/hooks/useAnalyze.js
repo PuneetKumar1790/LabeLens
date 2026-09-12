@@ -5,12 +5,15 @@ export const useAnalyze = () => {
   const [status, setStatus] = useState('idle')
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
+  const [isLimitReached, setIsLimitReached] = useState(false)
 
   const analyze = async (file, userContext = null) => {
     setStatus('loading')
     setError(null)
+    setIsLimitReached(false)
 
     try {
+      const guestScans = Number(localStorage.getItem('ll_guest_scans') || 0)
       const formData = new FormData()
       formData.append('label', file)
       if (userContext) {
@@ -18,12 +21,19 @@ export const useAnalyze = () => {
       }
 
       const res = await api.post('/api/analyze', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-guest-scans': String(guestScans),
+        },
       })
 
+      localStorage.setItem('ll_guest_scans', String(guestScans + 1))
       setResult(res.data.data)
       setStatus('success')
     } catch (err) {
+      if (err.response?.data?.code === 'SCAN_LIMIT_REACHED') {
+        setIsLimitReached(true)
+      }
       const message = getAnalyzeErrorMessage(err)
 
       setError(message)
@@ -35,9 +45,10 @@ export const useAnalyze = () => {
     setStatus('idle')
     setResult(null)
     setError(null)
+    setIsLimitReached(false)
   }
 
-  return { status, result, error, analyze, reset }
+  return { status, result, error, isLimitReached, analyze, reset }
 }
 
 const getAnalyzeErrorMessage = (err) => {

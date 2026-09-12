@@ -5,12 +5,14 @@ import { SEO } from '../components/SEO'
 import { UploadZone } from '../components/UploadZone'
 import { AnalysisResult } from '../components/AnalysisResult'
 import { AskAI } from '../components/AskAI'
+import { UpgradeModal } from '../components/UpgradeModal'
 import { useAnalyze } from '../hooks/useAnalyze'
 import { useAuth } from '../contexts/AuthContext'
 
 export const Scan = () => {
   const [file, setFile] = useState(null)
-  const { status, result, error, analyze, reset } = useAnalyze()
+  const [upgradeOpen, setUpgradeOpen] = useState(false)
+  const { status, result, error, isLimitReached, analyze, reset } = useAnalyze()
   const { getUserContext } = useAuth()
 
   const handleReset = () => {
@@ -82,18 +84,32 @@ export const Scan = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-6 border border-border bg-surface p-5"
+                    className={`mt-6 border p-5 ${
+                      isLimitReached
+                        ? 'border-amber-500/30 bg-amber-500/10'
+                        : 'border-border bg-surface'
+                    }`}
                   >
                     <p className="font-syne text-sm text-text-1">
                       {error || "Couldn't read this label. Try a clearer photo."}
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => handleAnalyze(file)}
-                      className="mt-4 rounded-sm bg-accent px-4 py-2 font-syne text-sm font-bold text-bg"
-                    >
-                      Retry scan →
-                    </button>
+                    {isLimitReached ? (
+                      <button
+                        type="button"
+                        onClick={() => setUpgradeOpen(true)}
+                        className="mt-4 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 font-syne text-sm font-bold text-bg hover:brightness-105"
+                      >
+                        ⚡ Upgrade to LabelLens Pro →
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => handleAnalyze(file)}
+                        className="mt-4 rounded-sm bg-accent px-4 py-2 font-syne text-sm font-bold text-bg"
+                      >
+                        Retry scan →
+                      </button>
+                    )}
                   </motion.div>
                 ) : null}
               </motion.div>
@@ -101,6 +117,15 @@ export const Scan = () => {
           </AnimatePresence>
         </div>
       </main>
+
+      <UpgradeModal
+        isOpen={upgradeOpen || isLimitReached}
+        onClose={() => {
+          setUpgradeOpen(false)
+          reset()
+        }}
+        triggerReason={isLimitReached ? error : ''}
+      />
     </div>
   )
 }

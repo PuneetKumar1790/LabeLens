@@ -10,6 +10,7 @@ import historyRouter from './routes/history.js'
 import compareRouter from './routes/compare.js'
 import ingredientRouter from './routes/ingredient.js'
 import chatRouter from './routes/chat.js'
+import billingRouter from './routes/billing.js'
 // Side-effect import: registers Passport Google strategy
 import './controllers/authController.js'
 // Connect MongoDB
@@ -44,11 +45,19 @@ app.use(
   })
 )
 
-app.use(express.json({ limit: '10mb' }))
+app.use(
+  express.json({
+    limit: '10mb',
+    verify: (req, _res, buf) => {
+      req.rawBody = buf
+    },
+  })
+)
 app.use(passport.initialize())
 
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
+app.use('/api/billing', billingRouter)
 app.use('/api', analyzeRouter)
 app.use('/api/history', historyRouter)
 app.use('/api', compareRouter)

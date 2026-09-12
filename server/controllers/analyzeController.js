@@ -1,5 +1,6 @@
 import Groq from 'groq-sdk'
 import ScanHistory from '../models/ScanHistory.js'
+import User from '../models/User.js'
 import { detectAllergens, detectAvoidedIngredients } from '../services/allergyDetector.js'
 import { uploadImage } from '../services/blobStorageService.js'
 
@@ -258,6 +259,43 @@ export const analyzeLabel = async (req, res) => {
       })
     }
 
+    // Enforce Pro Subscription / Free Tier scan limits
+    const FREE_LIMIT = 3
+    const checkoutUrl =
+      process.env.LEMON_SQUEEZY_CHECKOUT_URL ||
+      'https://labellens.lemonsqueezy.com/checkout/buy/c8808b7d-5797-4fc6-a14e-ae0c82bcf502'
+
+    if (req.user) {
+      const isPro = req.user.subscriptionStatus === 'active'
+      const currentCount = Number(req.user.scansCount) || 0
+      if (!isPro && currentCount >= FREE_LIMIT) {
+        return res.status(403).json({
+          success: false,
+          code: 'SCAN_LIMIT_REACHED',
+          error: `You have reached your limit of ${FREE_LIMIT} free scans. Upgrade to LabelLens Pro for unlimited scans!`,
+          data: {
+            scansCount: currentCount,
+            freeScansLimit: FREE_LIMIT,
+            checkoutUrl,
+          },
+        })
+      }
+    } else {
+      const guestScans = Number(req.headers['x-guest-scans'] || 0)
+      if (guestScans >= FREE_LIMIT) {
+        return res.status(403).json({
+          success: false,
+          code: 'SCAN_LIMIT_REACHED',
+          error: `You have reached your limit of ${FREE_LIMIT} free scans. Sign in or upgrade to LabelLens Pro for unlimited scans!`,
+          data: {
+            scansCount: guestScans,
+            freeScansLimit: FREE_LIMIT,
+            checkoutUrl,
+          },
+        })
+      }
+    }
+
     // Parse optional userContext from multipart or JSON body
     let userContext = null
     if (req.body?.userContext) {
@@ -362,9 +400,24 @@ export const analyzeLabel = async (req, res) => {
           imageUrl,
           forYou,
         })
+
+        // Increment user scan count
+        await User.findByIdAndUpdate(req.user._id, { $inc: { scansCount: 1 } })
       } catch (dbErr) {
-        console.error('ScanHistory save failed (non-fatal):', dbErr.message)
+        console.error('Scan save/count update failed (non-fatal):', dbErr.message)
       }
+    }
+
+    const isPro = req.user?.subscriptionStatus === 'active'
+    const updatedCount = req.user
+      ? (Number(req.user.scansCount) || 0) + 1
+      : Number(req.headers['x-guest-scans'] || 0) + 1
+
+    result.subscription = {
+      isPro,
+      scansUsed: updatedCount,
+      freeScansLimit: FREE_LIMIT,
+      scansRemaining: isPro ? Infinity : Math.max(0, FREE_LIMIT - updatedCount),
     }
 
     res.json({ success: true, data: result })

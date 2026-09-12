@@ -66,6 +66,11 @@
 ### 8. Shareable Social Result Cards
 - Generates polished, high-resolution result cards ready for sharing across Twitter/X, WhatsApp, Instagram, or clipboard.
 
+### 9. Lemon Squeezy Pro Subscriptions & Monetization
+- Turnkey monetization engine with freemium scan limits (3 free scans, then Pro paywall).
+- In-app Lemon.js overlay checkout for frictionless conversions.
+- Webhook processor for automatic plan activation, renewals, and cancellations.
+
 ---
 
 ## 🏗️ Technical Architecture
@@ -170,7 +175,10 @@ npm run dev
 | GOOGLE_CALLBACK_URL | Server | Optional | OAuth callback URL (e.g. .../api/auth/google/callback) |
 | AZURE_STORAGE_CONNECTION_STRING | Server | Optional | Azure Blob Storage connection string (image archiving) |
 | AZURE_STORAGE_CONTAINER_NAME | Server | Optional | Azure Blob container name |
+| LEMON_SQUEEZY_CHECKOUT_URL | Server | Yes | Direct Lemon Squeezy checkout link for Pro subscription |
+| LEMON_SQUEEZY_WEBHOOK_SECRET | Server | Yes | Webhook signing secret configured in Lemon Squeezy dashboard |
 | VITE_API_URL | Client | Yes | Backend URL (e.g. http://localhost:5000) |
+| VITE_LEMON_SQUEEZY_CHECKOUT_URL | Client | Yes | Frontend Lemon Squeezy checkout link for overlay modal |
 
 ---
 
@@ -180,11 +188,14 @@ npm run dev
 - GET /health — Check server status and timestamp.
 
 ### Analysis & AI
-- POST /api/analyze — Multipart form (label: image file, optional userContext JSON). Returns structured nutrition score, breakdown, allergen alerts, and red flags.
+- POST /api/analyze — Multipart form (label: image file, optional userContext JSON). Returns structured nutrition score, breakdown, allergen alerts, and red flags. Enforces free scan limit (3 scans) for non-subscribers.
 - POST /api/compare — Multipart form (labelA: image, labelB: image). Side-by-side comparison and category winner analysis.
-- POST /api/ingredient-explain — JSON body (
-ame or ingredient). Returns comprehensive ingredient profile and safety rating.
+- POST /api/ingredient-explain — JSON body (name or ingredient). Returns comprehensive ingredient profile and safety rating.
 - POST /api/chat-about-product — JSON body (question, productData, optional scanId). Contextual Q&A on nutrition facts.
+
+### Billing & Monetization
+- POST /api/billing/webhook — Lemon Squeezy webhook handler (subscription created, updated, cancelled, expired, order created) with HMAC SHA-256 signature verification.
+- GET /api/billing/status — Returns current user subscription tier, remaining free scans, and checkout link.
 
 ### Authentication & User
 - GET /api/auth/google — Initiates Google OAuth 2.0 flow.

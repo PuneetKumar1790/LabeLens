@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Logo } from './Logo'
+import { UpgradeModal } from './UpgradeModal'
 import { useAuth } from '../contexts/AuthContext'
 
 const links = [
@@ -13,8 +14,10 @@ const links = [
 export const Navbar = () => {
   const [open, setOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [upgradeOpen, setUpgradeOpen] = useState(false)
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const isPro = user?.subscriptionStatus === 'active'
 
   const handleLogout = () => {
     logout()
@@ -51,6 +54,20 @@ export const Navbar = () => {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          {isPro ? (
+            <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-300">
+              ⭐ PRO
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setUpgradeOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-syne text-[12px] font-bold text-accent hover:bg-accent hover:text-bg transition-colors"
+            >
+              ⚡ Upgrade
+            </button>
+          )}
+
           {user ? (
             <div className="relative">
               <button
@@ -149,10 +166,24 @@ export const Navbar = () => {
               {!user && (
                 <Link to="/login" onClick={() => setOpen(false)} className="border-b border-border/70 py-3 font-syne text-sm font-semibold text-accent">Sign In →</Link>
               )}
+              {!isPro && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false)
+                    setUpgradeOpen(true)
+                  }}
+                  className="text-left border-b border-border/70 py-3 font-syne text-sm font-bold text-accent"
+                >
+                  ⚡ Upgrade to Pro
+                </button>
+              )}
             </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
+
+      <UpgradeModal isOpen={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     </header>
   )
 }
