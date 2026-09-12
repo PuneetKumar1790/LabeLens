@@ -6,46 +6,36 @@ import { upload } from '../middleware/upload.js'
 // Helper: run Groq vision analysis for a single image buffer
 // Reuses the same prompt structure as analyzeController for consistency
 // ---------------------------------------------------------------------------
-const groqPrompt = `You are a nutrition expert AI. Examine this food product label image.
-Return ONLY a valid JSON object — no markdown, no explanation, no extra text.
+const groqPrompt = `You are a nutrition expert AI. Analyze this food product label image.
+Return ONLY valid JSON, no markdown or extra text. Be concise.
 
-If not a valid food label:
-{"is_valid_food_label": false, "reason": "explanation"}
+If not a valid food label: {"is_valid_food_label":false,"reason":"brief explanation"}
 
-If valid, return:
+If valid:
 {
-  "is_valid_food_label": true,
-  "product_name": "string",
-  "overall_score": <1.0-10.0>,
-  "score_label": "Poor | Okay | Good | Excellent",
-  "breakdown": {
-    "sugar":     {"level": "Low|Medium|High", "score": <1-10>},
-    "protein":   {"level": "Low|Medium|High", "score": <1-10>},
-    "fiber":     {"level": "Low|Medium|High", "score": <1-10>},
-    "additives": {"level": "Low|Medium|High", "score": <1-10>},
-    "sodium":    {"level": "Low|Medium|High", "score": <1-10>}
+  "is_valid_food_label":true,
+  "product_name":"brand + product name",
+  "overall_score":<1.0-10.0>,
+  "score_label":"Poor|Okay|Good|Excellent",
+  "breakdown":{
+    "sugar":{"level":"Low|Medium|High","score":<1-10>},
+    "protein":{"level":"Low|Medium|High","score":<1-10>},
+    "fiber":{"level":"Low|Medium|High","score":<1-10>},
+    "additives":{"level":"Low|Medium|High","score":<1-10>},
+    "sodium":{"level":"Low|Medium|High","score":<1-10>}
   },
-  "positives": ["string"],
-  "negatives": ["string"],
-  "verdict": "One sentence health summary.",
-  "recommendation": "One sentence advice.",
-  "ingredients": ["string"],
-  "goal_scores": {
-    "weight_loss": <1-10>,
-    "muscle_gain": <1-10>,
-    "general_health": <1-10>,
-    "diabetes_friendly": <1-10>,
-    "heart_health": <1-10>
-  },
-  "score_factors": {
-    "positives": [{"label": "string", "delta": <positive number>}],
-    "negatives": [{"label": "string", "delta": <negative number>}]
-  },
-  "red_flags": [{"level": "red|amber|green", "label": "string"}],
-  "allergen_suspects": ["string"]
+  "positives":["max 2 short strings"],
+  "negatives":["max 2 short strings"],
+  "verdict":"One short sentence.",
+  "recommendation":"One short sentence.",
+  "ingredients":["each ingredient"],
+  "goal_scores":{"weight_loss":<1-10>,"muscle_gain":<1-10>,"general_health":<1-10>,"diabetes_friendly":<1-10>,"heart_health":<1-10>},
+  "score_factors":{"positives":[{"label":"short","delta":<+num>}],"negatives":[{"label":"short","delta":<-num>}]},
+  "red_flags":[{"level":"red|amber|green","label":"short"}],
+  "allergen_suspects":["allergen ingredients"]
 }
 
-Rules: Score harmful nutrients (sugar, sodium, additives) inversely. Score beneficial (protein, fiber) directly. Base on WHO guidelines.`
+Rules: Score sugar/sodium/additives inversely. Score protein/fiber directly. Base on WHO guidelines. Keep strings brief.`
 
 const parseJson = (raw) => {
   if (!raw || typeof raw !== 'string') {
@@ -63,10 +53,10 @@ const parseJson = (raw) => {
 
 const analyzeImageBuffer = async (groq, buffer, mimeType) => {
   const base64 = buffer.toString('base64')
-  const modelName = process.env.GROQ_VISION_MODEL || 'qwen/qwen3.6-27b'
+  const modelName = process.env.GROQ_VISION_MODEL || 'qwen/qwen3.8-27b'
   const groqPayload = {
     model: modelName,
-    max_tokens: 3500,
+    max_tokens: 900,
     messages: [
       {
         role: 'user',
@@ -80,6 +70,7 @@ const analyzeImageBuffer = async (groq, buffer, mimeType) => {
 
   if (modelName.toLowerCase().includes('qwen')) {
     groqPayload.reasoning_effort = 'none'
+    groqPayload.response_format = { type: 'json_object' }
   }
 
   const completion = await groq.chat.completions.create(groqPayload)

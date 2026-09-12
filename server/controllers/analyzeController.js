@@ -7,66 +7,36 @@ import { uploadImage } from '../services/blobStorageService.js'
 // Groq prompt — expanded to return ingredients, goal_scores, score_factors,
 // red_flags, allergen_suspects while keeping all existing fields.
 // ---------------------------------------------------------------------------
-const jsonPrompt = `You are a nutrition expert AI. Carefully examine this image to determine if it is a valid food product label.
+const jsonPrompt = `You are a nutrition expert AI. Analyze this food product label image.
+Return ONLY valid JSON, no markdown or extra text. Be concise in string values.
 
-First, perform validation:
-1. Does the image contain a food product label?
-2. Are there visible food-related indicators (ingredients list, nutrition facts, serving size, calories, fat, sugar, protein, sodium, additives, etc.)?
+If NOT a valid food label: {"is_valid_food_label":false,"reason":"brief explanation"}
 
-Return ONLY a valid JSON object - no markdown, no explanation, no extra text.
-
-If the image IS NOT a valid food label, or if confidence is low, return EXACTLY this JSON format:
+If valid, return this exact JSON structure:
 {
-  "is_valid_food_label": false,
-  "reason": "Brief explanation of why it is rejected (e.g., 'Image is a resume, not a food label', 'No nutrition facts or ingredients visible', 'Too blurry to read')."
+  "is_valid_food_label":true,
+  "product_name":"brand + product name from label",
+  "overall_score":<1.0-10.0>,
+  "score_label":"Poor|Okay|Good|Excellent",
+  "breakdown":{
+    "sugar":{"level":"Low|Medium|High","score":<1-10>},
+    "protein":{"level":"Low|Medium|High","score":<1-10>},
+    "fiber":{"level":"Low|Medium|High","score":<1-10>},
+    "additives":{"level":"Low|Medium|High","score":<1-10>},
+    "sodium":{"level":"Low|Medium|High","score":<1-10>}
+  },
+  "positives":["max 2 short strings"],
+  "negatives":["max 2 short strings"],
+  "verdict":"One short sentence.",
+  "recommendation":"One short sentence.",
+  "ingredients":["each ingredient from label"],
+  "goal_scores":{"weight_loss":<1-10>,"muscle_gain":<1-10>,"general_health":<1-10>,"diabetes_friendly":<1-10>,"heart_health":<1-10>},
+  "score_factors":{"positives":[{"label":"short","delta":<+num>}],"negatives":[{"label":"short","delta":<-num>}]},
+  "red_flags":[{"level":"red|amber|green","label":"short"}],
+  "allergen_suspects":["ingredient strings with common allergens"]
 }
 
-If the image IS a valid food label, return the full analysis using this EXACT JSON format:
-{
-  "is_valid_food_label": true,
-  "product_name": "string - infer from label or packaging design if not explicit",
-  "overall_score": <number, 1.0-10.0, one decimal place>,
-  "score_label": "Poor | Okay | Good | Excellent",
-  "breakdown": {
-    "sugar":     { "level": "Low | Medium | High", "score": <health score 1-10> },
-    "protein":   { "level": "Low | Medium | High", "score": <health score 1-10> },
-    "fiber":     { "level": "Low | Medium | High", "score": <health score 1-10> },
-    "additives": { "level": "Low | Medium | High", "score": <health score 1-10> },
-    "sodium":    { "level": "Low | Medium | High", "score": <health score 1-10> }
-  },
-  "positives": ["string", "string"],
-  "negatives": ["string", "string"],
-  "verdict": "One sentence plain-English health summary of this product.",
-  "recommendation": "Brief eat / limit / avoid advice in one sentence.",
-  "ingredients": ["string"],
-  "goal_scores": {
-    "weight_loss": <1-10>,
-    "muscle_gain": <1-10>,
-    "general_health": <1-10>,
-    "diabetes_friendly": <1-10>,
-    "heart_health": <1-10>
-  },
-  "score_factors": {
-    "positives": [{"label": "string", "delta": <positive number>}],
-    "negatives": [{"label": "string", "delta": <negative number>}]
-  },
-  "red_flags": [{"level": "red | amber | green", "label": "string"}],
-  "allergen_suspects": ["string"]
-}
-
-Rules for analysis (only if valid):
-- Breakdown "level" means the detected amount in the product.
-- Breakdown "score" is always a health score where 10 is best and 1 is worst.
-- Score sugar, sodium, and additives inversely: low amount = high score, high amount = low score.
-- Score protein and fiber directly: high amount = high score, low amount = low score.
-- Base scoring on WHO nutritional guidelines and standard RDA values.
-- Product name should be the actual brand+product name visible on label.
-- ingredients: extract every ingredient listed on the label as individual strings.
-- goal_scores: rate how well this product suits each health goal on a 1-10 scale.
-- score_factors.positives: list of positive factors with how much each boosts the score (delta > 0).
-- score_factors.negatives: list of negative factors with how much each hurts the score (delta < 0).
-- red_flags: notable concerns or positives — level red = serious concern, amber = caution, green = positive.
-- allergen_suspects: ingredient strings that may contain common allergens (even if not explicitly labelled).`
+Rules: Score sugar/sodium/additives inversely (low amount=high score). Score protein/fiber directly. Base on WHO guidelines. Keep all string values brief to minimize output size.`
 
 // ---------------------------------------------------------------------------
 // Helpers — preserved exactly from V1
@@ -304,10 +274,10 @@ export const analyzeLabel = async (req, res) => {
     const base64Image = req.file.buffer.toString('base64')
     const mimeType = req.file.mimetype
 
-    const modelName = process.env.GROQ_VISION_MODEL || 'qwen/qwen3.6-27b'
+    const modelName = process.env.GROQ_VISION_MODEL || 'qwen/qwen3.8-27b'
     const groqPayload = {
       model: modelName,
-      max_tokens: 3500,
+      max_tokens: 900,
       messages: [
         {
           role: 'user',
@@ -324,6 +294,7 @@ export const analyzeLabel = async (req, res) => {
 
     if (modelName.toLowerCase().includes('qwen')) {
       groqPayload.reasoning_effort = 'none'
+      groqPayload.response_format = { type: 'json_object' }
     }
 
     const completion = await groq.chat.completions.create(groqPayload)
