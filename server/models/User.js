@@ -11,5 +11,4 @@ const userSchema = new Schema({
   saveImages: { type: Boolean, default: true },
 }, { timestamps: true })
 
-userSchema.index({ email: 1 })
 export default model('User', userSchema)

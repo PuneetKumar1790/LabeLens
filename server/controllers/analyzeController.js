@@ -299,7 +299,7 @@ export const analyzeLabel = async (req, res) => {
     const mimeType = req.file.mimetype
 
     const completion = await groq.chat.completions.create({
-      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+      model: process.env.GROQ_VISION_MODEL || 'qwen/qwen3.6-27b',
       response_format: { type: 'json_object' },
       max_tokens: 2000,
       messages: [
