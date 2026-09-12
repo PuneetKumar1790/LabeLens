@@ -48,16 +48,25 @@ If valid, return:
 Rules: Score harmful nutrients (sugar, sodium, additives) inversely. Score beneficial (protein, fiber) directly. Base on WHO guidelines.`
 
 const parseJson = (raw) => {
-  const cleaned = raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
+  if (!raw || typeof raw !== 'string') {
+    throw new Error('Empty response from AI model')
+  }
+  let cleaned = raw.replace(/<think>[\s\S]*?<\/think>/gi, '').trim()
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+  const start = cleaned.indexOf('{')
+  const end = cleaned.lastIndexOf('}')
+  if (start !== -1 && end !== -1 && end > start) {
+    cleaned = cleaned.slice(start, end + 1)
+  }
   return JSON.parse(cleaned)
 }
 
 const analyzeImageBuffer = async (groq, buffer, mimeType) => {
   const base64 = buffer.toString('base64')
-  const completion = await groq.chat.completions.create({
-    model: process.env.GROQ_VISION_MODEL || 'qwen/qwen3.6-27b',
-    response_format: { type: 'json_object' },
-    max_tokens: 2000,
+  const modelName = process.env.GROQ_VISION_MODEL || 'qwen/qwen3.6-27b'
+  const groqPayload = {
+    model: modelName,
+    max_tokens: 3500,
     messages: [
       {
         role: 'user',
@@ -67,7 +76,13 @@ const analyzeImageBuffer = async (groq, buffer, mimeType) => {
         ],
       },
     ],
-  })
+  }
+
+  if (modelName.toLowerCase().includes('qwen')) {
+    groqPayload.reasoning_effort = 'none'
+  }
+
+  const completion = await groq.chat.completions.create(groqPayload)
   return parseJson(completion.choices[0].message.content)
 }
 
