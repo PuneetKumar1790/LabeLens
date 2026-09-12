@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import api from '../services/api'
 
@@ -14,20 +14,37 @@ const SlideOver = ({ ingredient, onClose }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  useState(() => {
+  useEffect(() => {
+    let isMounted = true
     const fetchExplain = async () => {
       setLoading(true)
       setError(null)
       try {
-        const res = await api.post('/api/ingredient-explain', { ingredient })
-        setData(res.data.data || res.data)
+        const res = await api.post('/api/ingredient-explain', {
+          name: ingredient,
+          ingredient,
+        })
+        if (isMounted) {
+          setData(res.data.data || res.data)
+        }
       } catch (err) {
-        setError(err.response?.data?.error || 'Failed to load ingredient info.')
+        if (isMounted) {
+          setError(err.response?.data?.error || 'Failed to load ingredient info.')
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
-    fetchExplain()
+
+    if (ingredient) {
+      fetchExplain()
+    }
+
+    return () => {
+      isMounted = false
+    }
   }, [ingredient])
 
   const safetyStyle = data?.safety_rating

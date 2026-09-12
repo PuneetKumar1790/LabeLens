@@ -4,6 +4,9 @@ import { BreakdownBar } from './BreakdownBar'
 import { ScoreRing } from './ScoreRing'
 import { AllergyAlerts } from './AllergyAlerts'
 import { RedFlags } from './RedFlags'
+import { ExplainableScore } from './ExplainableScore'
+import { GoalScores } from './GoalScores'
+import { IngredientList } from './IngredientList'
 import { scoreColor } from '../utils/scoreColor'
 import { createShareCardFile } from '../utils/shareCard'
 
@@ -87,6 +90,7 @@ export const AnalysisResult = ({ result, onReset }) => {
         <p className="mx-auto mt-5 max-w-xl font-serif text-2xl italic leading-8 text-text-1">
           "{result.verdict}"
         </p>
+        <ExplainableScore score={score} factors={result.score_factors} />
       </div>
 
       <div className="mt-8">
@@ -112,10 +116,14 @@ export const AnalysisResult = ({ result, onReset }) => {
         </div>
       </div>
 
+      <GoalScores scores={result.goal_scores} />
+
       <div className="mt-12 grid gap-8 md:grid-cols-2">
         <List title="What's good:" color="#4ADE80" items={result.positives || []} />
         <List title="Watch out for:" color="#FF4545" items={result.negatives || []} />
       </div>
+
+      <IngredientList ingredients={result.ingredients} />
 
       <div className="mt-12 grid gap-6 border-y border-border py-8">
         <div>

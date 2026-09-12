@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   getProfile,
+  getSettings,
   updatePreferences,
   updateAllergyProfile,
   updateAvoidedIngredients,
@@ -12,6 +13,7 @@ import { authenticate } from '../middleware/auth.js'
 const router = Router()
 
 router.get('/profile', authenticate, getProfile)
+router.get('/settings', authenticate, getSettings)
 router.put('/preferences', authenticate, updatePreferences)
 router.put('/allergies', authenticate, updateAllergyProfile)
 router.put('/avoided', authenticate, updateAvoidedIngredients)

@@ -11,10 +11,24 @@ export const getHistory = async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page) || 1)
     const limit = Math.min(50, Math.max(1, parseInt(req.query.limit) || 10))
     const skip = (page - 1) * limit
-    const sortBy = ['createdAt', 'healthScore'].includes(req.query.sortBy)
-      ? req.query.sortBy
-      : 'createdAt'
-    const sortDir = req.query.sortDir === 'asc' ? 1 : -1
+    let sortBy = 'createdAt'
+    let sortDir = -1
+
+    const rawSort = req.query.sortBy || req.query.sort
+    if (rawSort === 'score_high' || rawSort === 'healthScore_desc') {
+      sortBy = 'healthScore'
+      sortDir = -1
+    } else if (rawSort === 'score_low' || rawSort === 'healthScore_asc') {
+      sortBy = 'healthScore'
+      sortDir = 1
+    } else if (rawSort === 'healthScore') {
+      sortBy = 'healthScore'
+      sortDir = req.query.sortDir === 'asc' ? 1 : -1
+    } else if (rawSort === 'createdAt') {
+      sortBy = 'createdAt'
+      sortDir = req.query.sortDir === 'asc' ? 1 : -1
+    }
+
     const search = req.query.search ? String(req.query.search).trim() : null
     const minScore = req.query.minScore !== undefined ? parseFloat(req.query.minScore) : null
     const maxScore = req.query.maxScore !== undefined ? parseFloat(req.query.maxScore) : null
@@ -22,7 +36,8 @@ export const getHistory = async (req, res) => {
     const filter = { userId }
 
     if (search) {
-      filter.productName = { $regex: search, $options: 'i' }
+      const sanitized = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      filter.productName = { $regex: sanitized, $options: 'i' }
     }
 
     if (minScore !== null || maxScore !== null) {

@@ -33,13 +33,12 @@ const parseJson = (raw) => {
 
 export const explainIngredient = async (req, res) => {
   try {
-    const { name } = req.body
-
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+    const rawName = req.body?.name || req.body?.ingredient
+    if (!rawName || typeof rawName !== 'string' || rawName.trim().length === 0) {
       return res.status(400).json({ error: 'Ingredient name is required.' })
     }
 
-    const ingredientName = name.trim().slice(0, 200) // safety cap
+    const ingredientName = rawName.trim().slice(0, 200) // safety cap
 
     if (!process.env.GROQ_API_KEY || process.env.GROQ_API_KEY === 'your_groq_api_key_here') {
       return res.status(503).json({

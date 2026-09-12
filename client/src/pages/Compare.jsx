@@ -164,8 +164,16 @@ export const Compare = () => {
 
   const productA = results?.productA || results?.a
   const productB = results?.productB || results?.b
-  const winner = results?.winner
-  const goalWinners = results?.goalWinners || results?.goal_winners || {}
+  const comparison = results?.comparison || {}
+
+  const rawWinner = results?.winner || comparison?.overall_winner
+  let winner = rawWinner
+  if (rawWinner === 'A') winner = productA?.product_name || 'Product A'
+  else if (rawWinner === 'B') winner = productB?.product_name || 'Product B'
+  else if (rawWinner === 'tie') winner = 'Tie — Both products are evenly matched'
+
+  const winnerReason = results?.winner_reason || comparison?.summary || ''
+  const goalWinners = results?.goalWinners || results?.goal_winners || comparison?.winners || {}
 
   return (
     <div className="min-h-screen bg-bg text-text-1">
@@ -318,11 +326,11 @@ export const Compare = () => {
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.08 }}
-                        className="flex items-center justify-between"
+                        className="flex items-center justify-between gap-3"
                       >
                         <span className="font-syne text-sm text-text-2">{goal}</span>
-                        <span className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-syne text-xs font-semibold text-accent">
-                          Best: {w}
+                        <span className="rounded-full border border-accent/40 bg-accent/10 px-3 py-1 font-syne text-xs font-semibold text-accent truncate max-w-[220px]">
+                          Best: {w === 'A' ? (productA?.product_name || 'Product A') : w === 'B' ? (productB?.product_name || 'Product B') : w}
                         </span>
                       </motion.div>
                     )
@@ -341,9 +349,9 @@ export const Compare = () => {
                   <p className="font-syne text-xs text-text-2 uppercase tracking-widest mb-2">
                     Overall Winner
                   </p>
-                  <p className="font-serif text-4xl text-accent">{winner}</p>
-                  {results?.winner_reason && (
-                    <p className="mt-3 font-syne text-sm text-text-2">{results.winner_reason}</p>
+                  <p className="font-serif text-3xl sm:text-4xl text-accent">{winner}</p>
+                  {winnerReason && (
+                    <p className="mt-3 font-syne text-sm text-text-2 max-w-xl mx-auto">{winnerReason}</p>
                   )}
                 </motion.div>
               )}

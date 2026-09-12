@@ -96,13 +96,27 @@ export const History = () => {
   const fetchHistory = useCallback(async () => {
     setLoading(true)
     try {
-      const res = await api.get('/api/history', {
-        params: { limit: PER_PAGE, page, sort: sortBy, search },
-      })
+      const params = { limit: PER_PAGE, page }
+      if (search && search.trim()) {
+        params.search = search.trim()
+      }
+      if (sortBy === 'score_high') {
+        params.sortBy = 'healthScore'
+        params.sortDir = 'desc'
+      } else if (sortBy === 'score_low') {
+        params.sortBy = 'healthScore'
+        params.sortDir = 'asc'
+      } else {
+        params.sortBy = 'createdAt'
+        params.sortDir = 'desc'
+      }
+
+      const res = await api.get('/api/history', { params })
       const data = res.data.data || res.data
       setScans(data.scans || data || [])
-      const total = data.total || (data.scans || data || []).length
-      setTotalPages(Math.max(1, Math.ceil(total / PER_PAGE)))
+      const total = data.pagination?.total ?? (data.total || (data.scans || []).length)
+      const calculatedPages = data.pagination?.totalPages ?? Math.max(1, Math.ceil(total / PER_PAGE))
+      setTotalPages(calculatedPages)
     } catch {
       setScans([])
     } finally {

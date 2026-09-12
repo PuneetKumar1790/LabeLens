@@ -52,6 +52,20 @@ const GoalBar = ({ label, score, index }) => {
   )
 }
 
+const GOAL_LABEL_MAP = {
+  weight_loss: 'Weight Loss',
+  muscle_gain: 'Muscle Gain',
+  general_health: 'General Health',
+  diabetes_friendly: 'Diabetes Friendly',
+  heart_health: 'Heart Health',
+}
+
+const formatGoalLabel = (key) =>
+  GOAL_LABEL_MAP[key] ||
+  String(key || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+
 export const GoalScores = ({ scores }) => {
   if (!scores || Object.keys(scores).length === 0) return null
 
@@ -63,9 +77,12 @@ export const GoalScores = ({ scores }) => {
         Goal Match
       </p>
       <div className="rounded-xl border border-border bg-surface p-5 space-y-5">
-        {entries.map(([label, score], i) => (
-          <GoalBar key={label} label={label} score={score} index={i} />
-        ))}
+        {entries.map(([label, score], i) => {
+          const displayLabel = formatGoalLabel(label)
+          return (
+            <GoalBar key={label} label={displayLabel} score={score} index={i} />
+          )
+        })}
       </div>
     </div>
   )

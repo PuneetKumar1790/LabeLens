@@ -50,7 +50,7 @@ export const chatAboutProduct = async (req, res) => {
     let answer = completion.choices[0].message.content?.trim() || ''
     answer = answer.replace(/<think>[\s\S]*?<\/think>/gi, '').trim()
 
-    // Save to ChatHistory (non-fatal)
+    // Save to ChatHistory (non-fatal, only when userId or scanId is present)
     try {
       const userId = req.user?._id || null
       const scanIdObj =
@@ -58,21 +58,23 @@ export const chatAboutProduct = async (req, res) => {
           ? new mongoose.Types.ObjectId(scanId)
           : null
 
-      // Find existing conversation for this user+scan or create new
-      const chatDoc = await ChatHistory.findOneAndUpdate(
-        { userId, scanId: scanIdObj },
-        {
-          $push: {
-            messages: {
-              $each: [
-                { role: 'user', content: trimmedQuestion, ts: new Date() },
-                { role: 'assistant', content: answer, ts: new Date() },
-              ],
+      if (userId || scanIdObj) {
+        // Find existing conversation for this user+scan or create new
+        await ChatHistory.findOneAndUpdate(
+          { userId, scanId: scanIdObj },
+          {
+            $push: {
+              messages: {
+                $each: [
+                  { role: 'user', content: trimmedQuestion, ts: new Date() },
+                  { role: 'assistant', content: answer, ts: new Date() },
+                ],
+              },
             },
           },
-        },
-        { upsert: true, new: true }
-      )
+          { upsert: true, new: true }
+        )
+      }
     } catch (dbErr) {
       console.error('ChatHistory save failed (non-fatal):', dbErr.message)
     }

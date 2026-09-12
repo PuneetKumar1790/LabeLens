@@ -60,6 +60,19 @@ export const updateAvoidedIngredients = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+export const getSettings = async (req, res) => {
+  try {
+    res.json({
+      success: true,
+      data: {
+        saveImages: Boolean(req.user.saveImages),
+        onboardingCompleted: Boolean(req.user.onboardingCompleted),
+      },
+    })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
 
 export const updateSettings = async (req, res) => {
   try {

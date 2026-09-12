@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon --watch index.js --watch routes --watch controllers --watch middleware --watch services --watch models --watch config --watch .env --ext js,json,env index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test:db": "node scripts/test_db.js",
+    "test:models": "node scripts/test_models.js",
+    "test:pipeline": "node scripts/test_pipeline.js"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.26.0",
@@ -15,6 +18,7 @@
     "express-rate-limit": "^8.5.2",
     "groq-sdk": "^0.3.3",
     "jsonwebtoken": "^9.0.2",
+    "labellens": "file:..",
     "mongoose": "^9.7.1",
     "multer": "^2.1.1",
     "passport": "^0.7.0",
