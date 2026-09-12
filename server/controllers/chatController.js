@@ -31,16 +31,24 @@ export const chatAboutProduct = async (req, res) => {
 
     const systemPrompt = `You are a nutrition expert. Given this product analysis: ${productJson}. Answer the user's specific question about this product in 2-4 sentences. Be direct, helpful, and evidence-based. Do not add generic disclaimers.`
 
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+    const modelName = process.env.GROQ_CHAT_MODEL || 'qwen/qwen3.8-27b'
+    const groqPayload = {
+      model: modelName,
       max_tokens: 400,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: trimmedQuestion },
       ],
-    })
+    }
 
-    const answer = completion.choices[0].message.content?.trim() || ''
+    if (modelName.toLowerCase().includes('qwen')) {
+      groqPayload.reasoning_effort = 'none'
+    }
+
+    const completion = await groq.chat.completions.create(groqPayload)
+
+    let answer = completion.choices[0].message.content?.trim() || ''
+    answer = answer.replace(/<think>[\s\S]*?<\/think>/gi, '').trim()
 
     // Save to ChatHistory (non-fatal)
     try {

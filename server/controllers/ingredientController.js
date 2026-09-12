@@ -18,7 +18,16 @@ safety_rating guidelines:
 - "avoid": strong evidence of harm, or banned/restricted in major jurisdictions, or linked to serious health issues`
 
 const parseJson = (raw) => {
-  const cleaned = raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
+  if (!raw || typeof raw !== 'string') {
+    throw new Error('Empty response from AI model')
+  }
+  let cleaned = raw.replace(/<think>[\s\S]*?<\/think>/gi, '').trim()
+  cleaned = cleaned.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+  const start = cleaned.indexOf('{')
+  const end = cleaned.lastIndexOf('}')
+  if (start !== -1 && end !== -1 && end > start) {
+    cleaned = cleaned.slice(start, end + 1)
+  }
   return JSON.parse(cleaned)
 }
 
@@ -41,8 +50,9 @@ export const explainIngredient = async (req, res) => {
 
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+    const modelName = process.env.GROQ_CHAT_MODEL || 'qwen/qwen3.8-27b'
+    const groqPayload = {
+      model: modelName,
       max_tokens: 600,
       messages: [
         {
@@ -50,7 +60,14 @@ export const explainIngredient = async (req, res) => {
           content: INGREDIENT_PROMPT(ingredientName),
         },
       ],
-    })
+    }
+
+    if (modelName.toLowerCase().includes('qwen')) {
+      groqPayload.reasoning_effort = 'none'
+      groqPayload.response_format = { type: 'json_object' }
+    }
+
+    const completion = await groq.chat.completions.create(groqPayload)
 
     const parsed = parseJson(completion.choices[0].message.content)
 
