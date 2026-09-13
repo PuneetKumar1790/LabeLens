@@ -69,15 +69,33 @@ export const handleWebhook = async (req, res) => {
 
     console.log(`[Billing] Received event: ${eventName} for ${customerEmail || user?._id || 'unknown user'}`)
 
-    if (!user) {
-      console.warn(`[Billing] User not found for webhook event: ${eventName}. Skipping DB update.`)
-      // Return 200 so Lemon Squeezy does not continuously retry if user was deleted
-      return res.status(200).json({ success: true, message: 'Event received, user not matched' })
-    }
-
     const renewsAt = dataAttributes.renews_at ? new Date(dataAttributes.renews_at) : null
     const endsAt = dataAttributes.ends_at ? new Date(dataAttributes.ends_at) : null
     const status = dataAttributes.status
+
+    if (!user) {
+      if (customerEmail && (eventName === 'subscription_created' || eventName === 'subscription_resumed' || eventName === 'order_created')) {
+        const name = dataAttributes.user_name || dataAttributes.customer_name || customerEmail.split('@')[0]
+        user = new User({
+          name,
+          email: customerEmail,
+          subscriptionStatus: 'active',
+          subscriptionId: subscriptionId || null,
+          customerId: customerId || null,
+          variantId: variantId || null,
+          orderId: orderId || null,
+          renewsAt,
+          endsAt,
+        })
+        await user.save()
+        console.log(`[Billing] Auto-created new PRO user ${customerEmail} from ${eventName}.`)
+        return res.status(200).json({ success: true, message: 'New user created with active subscription' })
+      } else {
+        console.warn(`[Billing] User not found for webhook event: ${eventName}. Skipping DB update.`)
+        // Return 200 so Lemon Squeezy does not continuously retry if user was deleted
+        return res.status(200).json({ success: true, message: 'Event received, user not matched' })
+      }
+    }
 
     switch (eventName) {
       case 'subscription_created':
