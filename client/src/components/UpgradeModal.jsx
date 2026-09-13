@@ -139,7 +139,7 @@ export const UpgradeModal = ({ isOpen, onClose, triggerReason = '' }) => {
           </button>
 
           {/* Scrollable Modal Content */}
-          <div className="overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
+          <div className="overflow-y-auto px-4 py-3 sm:px-6 sm:py-4 custom-scrollbar">
             {/* Tag */}
             <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/15 px-2.5 py-0.5 font-mono text-[10px] font-semibold tracking-wide text-accent">
               <SparkleIcon className="h-3 w-3 text-accent" />
@@ -147,22 +147,22 @@ export const UpgradeModal = ({ isOpen, onClose, triggerReason = '' }) => {
             </div>
 
             {/* Title */}
-            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-[#F4F4F5] sm:text-3xl">
+            <h2 className="mt-1.5 font-serif text-2xl font-bold tracking-tight text-[#F4F4F5] sm:text-3xl">
               See Beyond Every Label.
             </h2>
 
             {triggerReason ? (
-              <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 font-syne text-xs font-medium text-amber-300">
+              <p className="mt-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 font-syne text-xs font-medium text-amber-300">
                 {triggerReason}
               </p>
             ) : (
-              <p className="mt-1 font-syne text-xs leading-relaxed text-[#A1A1AA]">
+              <p className="mt-0.5 font-syne text-xs leading-relaxed text-[#A1A1AA]">
                 Upgrade to Pro for unlimited label scans &amp; complete health intelligence.
               </p>
             )}
 
             {/* Feature List — compact, clean, all 5 points clearly laid out */}
-            <div className="mt-3.5 space-y-1.5 sm:space-y-2">
+            <div className="mt-2.5 space-y-1.5">
               {perks.map((p, idx) => (
                 <div
                   key={idx}
@@ -182,7 +182,7 @@ export const UpgradeModal = ({ isOpen, onClose, triggerReason = '' }) => {
             </div>
 
             {/* Pricing Box & CTA */}
-            <div className="mt-3.5 rounded-xl border border-[#27272A] bg-[#161619] p-3.5 sm:mt-4 sm:p-4 shadow-md">
+            <div className="mt-2.5 rounded-xl border border-[#27272A] bg-[#161619] p-3 sm:p-3.5 shadow-md">
               <div className="flex items-baseline justify-between">
                 <div>
                   <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#A1A1AA]">
@@ -198,13 +198,13 @@ export const UpgradeModal = ({ isOpen, onClose, triggerReason = '' }) => {
 
               <button
                 onClick={handleCheckout}
-                className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3 font-syne text-sm font-bold text-[#080808] shadow-[0_4px_16px_rgba(212,245,60,0.25)] transition-all hover:brightness-110 active:scale-[0.99]"
+                className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-syne text-sm font-bold text-[#080808] shadow-[0_4px_16px_rgba(212,245,60,0.25)] transition-all hover:brightness-110 active:scale-[0.99]"
               >
                 <span>Upgrade to Pro Now</span>
                 <span aria-hidden="true">→</span>
               </button>
 
-              <div className="mt-2.5 flex flex-wrap items-center justify-center gap-3 font-mono text-[10px] text-[#D4D4D8]">
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-3 font-mono text-[10px] text-[#D4D4D8]">
                 <span className="inline-flex items-center gap-1">
                   <CheckCircleIcon className="h-3 w-3 text-accent" /> Cancel anytime
                 </span>
